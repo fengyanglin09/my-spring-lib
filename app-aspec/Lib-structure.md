@@ -3,16 +3,18 @@
 ```yaml
 mayo-spring-boot-starters/
   pom.xml                      <-- parent / BOM-ish aggregator
-  mayo-platform-bom/
-  mayo-exception-alert-autoconfigure/
-  mayo-exception-alert-spring-boot-starter/
-  mayo-sftp-support-autoconfigure/
-  mayo-sftp-support-spring-boot-starter/
-  mayo-graph-support-autoconfigure/
-  mayo-graph-support-spring-boot-starter/
-  mayo-logging-autoconfigure/
-  mayo-logging-spring-boot-starter/
-  mayo-test-support/
+  spa-platform-bom/
+  spa-exception-alert-core/
+  spa-exception-alert-autoconfigure/
+  spa-exception-alert-spring-boot-starter/
+  spa-exception-alart-demo/
+  spa-sftp-support-autoconfigure/
+  spa-sftp-support-spring-boot-starter/
+  spa-graph-support-autoconfigure/
+  spa-graph-support-spring-boot-starter/
+  spa-logging-autoconfigure/
+  spa-logging-spring-boot-starter/
+  spa-test-support/
   docs/
   sample-apps/
     exception-alert-demo/
@@ -22,6 +24,15 @@ mayo-spring-boot-starters/
 
 ### lib pattern
 - For each reusable feature, use two modules:
+
+#### *-core
+Put the plain Java/shared Spring classes here:
+
+1. ExceptionAlertContext
+2. ExceptionAlertService
+3. DefaultExceptionAlertService
+4. ExceptionEmailTemplateService
+5. maybe SystemMetadataProvider
 
 #### *-autoconfigure
 

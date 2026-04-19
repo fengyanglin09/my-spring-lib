@@ -1,7 +1,6 @@
 package io.github.fengyanglin09.spaexceptionalertdemo.restController;
 
 import io.github.fengyanglin09.spa.alert.autoconfigure.model.ExceptionAlertContext;
-import io.github.fengyanglin09.spa.alert.autoconfigure.properties.ExceptionAlertProperties;
 import io.github.fengyanglin09.spa.alert.autoconfigure.service.ExceptionAlertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-public class TestController {
+public class SpaExceptionAlertTestController {
 
     private final ExceptionAlertService exceptionAlertService;
 

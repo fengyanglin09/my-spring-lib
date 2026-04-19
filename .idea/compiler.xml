@@ -6,7 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="spa-exception-alert-demo" />
+        <module name="spa-web-error-core" />
+        <module name="spa-spring-lib-demo" />
         <module name="spa-exception-alert-autoconfigure" />
         <module name="spa-exception-alert-starter" />
       </profile>
@@ -18,9 +19,10 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="spa-exception-alert-demo" options="-parameters" />
       <module name="spa-exception-alert-demo.main" options="-parameters" />
       <module name="spa-exception-alert-demo.test" options="-parameters" />
+      <module name="spa-spring-lib-demo" options="-parameters" />
+      <module name="spa-web-error-core" options="" />
     </option>
   </component>
 </project>

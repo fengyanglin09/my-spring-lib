@@ -1,4 +1,7 @@
 spring:
+
+
+#this part is to test the spa-exception-alert-starter================================
   mail:
     host: smtprelay.mayo.edu
     port: 25
