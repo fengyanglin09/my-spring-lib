@@ -5,3 +5,8 @@
 /.idea/modules.xml
 /.idea/my-spring-lib.iml
 /.idea/vcs.xml
+/target/
+**/target/
+/.flattened-pom.xml
+**/.flattened-pom.xml
+/app-aspec/private.key

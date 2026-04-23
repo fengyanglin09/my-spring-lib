@@ -18,8 +18,8 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
         </processorPath>
         <module name="spa-exception-alert-autoconfigure" />
-        <module name="spa-web-error-core" />
         <module name="spa-exception-alert-starter" />
+        <module name="spa-web-error-core" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

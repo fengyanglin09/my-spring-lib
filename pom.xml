@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <name>my-spring-lib-parent</name>
-    <description>my-spring-lib-parent</description>
+    <description>Parent build for the my-spring-lib Spring Boot libraries.</description>
 
     <modules>
         <module>my-spring-lib-bom</module>
@@ -163,6 +163,9 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>3.8.0</version>
+                        <configuration>
+                            <doclint>none</doclint>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -212,7 +215,7 @@
         <developer>
             <id>fengyanglin09</id>
             <name>Fengyang Lin</name>
-            <email>YOUR_EMAIL_HERE</email>
+            <email>fengyanglin09@gmail.com</email>
         </developer>
     </developers>
 
