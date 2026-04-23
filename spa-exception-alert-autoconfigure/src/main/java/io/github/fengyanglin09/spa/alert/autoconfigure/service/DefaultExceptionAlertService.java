@@ -5,16 +5,18 @@ import io.github.fengyanglin09.spa.alert.autoconfigure.properties.ExceptionAlert
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 @Slf4j
 @RequiredArgsConstructor
-public class DefaultExceptionAlertService implements ExceptionAlertService{
+public class DefaultExceptionAlertService implements ExceptionAlertService {
 
     private final JavaMailSender mailSender;
     private final ExceptionAlertProperties properties;
     private final ExceptionEmailTemplateService templateService;
+    private final TaskExecutor taskExecutor;
 
     @Override
     public void sendAlert(ExceptionAlertContext context) {
@@ -23,6 +25,10 @@ public class DefaultExceptionAlertService implements ExceptionAlertService{
             return;
         }
 
+        taskExecutor.execute(() -> doSendAlert(context));
+    }
+
+    private void doSendAlert(ExceptionAlertContext context) {
         try {
             String subject = templateService.buildSubject(properties, context);
             String htmlBody = templateService.buildHtmlBody(properties, context);
@@ -42,5 +48,4 @@ public class DefaultExceptionAlertService implements ExceptionAlertService{
             log.error("Failed to send exception alert email", ex);
         }
     }
-
 }

@@ -24,7 +24,7 @@ spa:
     environment: local
     from: ${MAIL_FROM:"noreply@mayo.edu"}
     to:
-      - ${MAIL_TO:"lin.pengpeng@mayo.edu"}
+      - ${MAIL_TO:"fengyanglin09@gmail.com"}
     subject-prefix: "[DEMO LOCAL]"
     include-stack-trace: true
     max-stack-trace-length: 12000
