@@ -1,4 +1,4 @@
-package io.github.fengyanglin09.spaexceptionalertdemo.restController;
+package io.github.fengyanglin09.spalibdemo.restController;
 
 import io.github.fengyanglin09.spa.alert.autoconfigure.model.ExceptionAlertContext;
 import io.github.fengyanglin09.spa.alert.autoconfigure.service.ExceptionAlertService;
@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+
+
 
 @RestController
 @RequiredArgsConstructor

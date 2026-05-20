@@ -1,32 +1,3 @@
 spring:
 
 
-#this part is to test the spa-exception-alert-starter================================
-  mail:
-    host: smtprelay.mayo.edu
-    port: 25
-#    username: ${MAIL_USERNAME}
-#    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: false
-          starttls:
-            enable: false
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
-
-spa:
-  exception-alert:
-    enabled: true
-    application-name: demo-app
-    environment: local
-    from: ${MAIL_FROM:"noreply@mayo.edu"}
-    to:
-      - ${MAIL_TO:"fengyanglin09@gmail.com"}
-    subject-prefix: "[DEMO LOCAL]"
-    include-stack-trace: true
-    max-stack-trace-length: 12000
-    include-hostname: true
-    include-trace-id: true

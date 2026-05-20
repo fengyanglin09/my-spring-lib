@@ -3,13 +3,13 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/my-spring-lib-bom/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/my-spring-lib-bom/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/spa-exception-alert-autoconfigure/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/spa-exception-alert-autoconfigure/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/spa-exception-alert-starter/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/spa-exception-alert-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spa-sdk-core/spa-web-error-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spa-sdk-core/spa-web-error-core/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spa-spring-lib-demo/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/spa-web-error-core/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/spa-web-error-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spa-starters/spa-exception-alert/spa-exception-alert-autoconfigure/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spa-starters/spa-exception-alert/spa-exception-alert-autoconfigure/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spa-starters/spa-exception-alert/spa-exception-alert-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spa-starters/spa-exception-alert/spa-exception-alert-starter/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

@@ -1,6 +1,5 @@
-package io.github.fengyanglin09.spaexceptionalertdemo.exception;
+package io.github.fengyanglin09.spalibdemo.exception;
 
-import io.github.fengyanglin09.spa.alert.autoconfigure.service.ExceptionAlertService;
 import io.github.fengyanglin09.spa.web.error.core.handler.BaseGlobalExceptionHandler;
 import io.github.fengyanglin09.spa.web.error.core.model.ApiError;
 import jakarta.servlet.http.HttpServletRequest;

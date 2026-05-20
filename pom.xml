@@ -13,9 +13,9 @@
 
     <modules>
         <module>my-spring-lib-bom</module>
-        <module>spa-exception-alert-autoconfigure</module>
-        <module>spa-exception-alert-starter</module>
-        <module>spa-web-error-core</module>
+        <module>spa-starters/spa-exception-alert/spa-exception-alert-autoconfigure</module>
+        <module>spa-starters/spa-exception-alert/spa-exception-alert-starter</module>
+        <module>spa-sdk-core/spa-web-error-core</module>
 <!--        <module>sample-apps/exception-alert-demo</module>-->
     </modules>
 

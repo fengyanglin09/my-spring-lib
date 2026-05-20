@@ -6,13 +6,13 @@
         <groupId>io.github.fengyanglin09</groupId>
         <artifactId>my-spring-lib-starter</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
 
-    <artifactId>spa-web-error-core</artifactId>
+    <artifactId>spa-exception-alert-starter</artifactId>
 
-    <name>spa-web-error-core</name>
-    <description>Shared web error models and exception handling base classes</description>
+    <name>spa-exception-alert-starter</name>
+    <description>Starter for enabling exception alerting in Spring Boot applications.</description>
     <url>https://github.com/fengyanglin09/my-spring-lib-starter</url>
 
     <licenses>
@@ -39,24 +39,21 @@
     </scm>
 
     <dependencies>
-
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <groupId>io.github.fengyanglin09</groupId>
+            <artifactId>spa-exception-alert-autoconfigure</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-
     </dependencies>
 </project>
