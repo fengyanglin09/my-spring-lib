@@ -1,0 +1,17 @@
+package rules;
+
+import io.github.fengyanglin09.spalibdemo.rulesEngineDemo.model.DiscountRequest;
+import io.github.fengyanglin09.spalibdemo.rulesEngineDemo.model.DiscountResult;
+
+
+rule "VIP customer discount"
+when
+    $request : DiscountRequest(
+        customerType == "VIP",
+        orderAmount.compareTo(new java.math.BigDecimal("100")) > 0
+    )
+    $result : DiscountResult()
+then
+    $result.setDiscountPercent(15);
+    $result.setReason("VIP customer with order over 100");
+end

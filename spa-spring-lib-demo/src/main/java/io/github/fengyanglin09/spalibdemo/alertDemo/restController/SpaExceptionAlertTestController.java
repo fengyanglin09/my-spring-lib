@@ -1,4 +1,4 @@
-package io.github.fengyanglin09.spalibdemo.restController;
+package io.github.fengyanglin09.spalibdemo.alertDemo.restController;
 
 import io.github.fengyanglin09.spa.alert.autoconfigure.model.ExceptionAlertContext;
 import io.github.fengyanglin09.spa.alert.autoconfigure.service.ExceptionAlertService;

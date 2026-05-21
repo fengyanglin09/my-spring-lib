@@ -1,4 +1,4 @@
-package io.github.fengyanglin09.spalibdemo.exception;
+package io.github.fengyanglin09.spalibdemo.alertDemo.exception;
 
 import io.github.fengyanglin09.spa.web.error.core.handler.BaseGlobalExceptionHandler;
 import io.github.fengyanglin09.spa.web.error.core.model.ApiError;
