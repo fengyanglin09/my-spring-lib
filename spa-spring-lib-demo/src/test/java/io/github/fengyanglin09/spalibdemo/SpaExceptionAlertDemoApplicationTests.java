@@ -9,5 +9,4 @@ class SpaExceptionAlertDemoApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

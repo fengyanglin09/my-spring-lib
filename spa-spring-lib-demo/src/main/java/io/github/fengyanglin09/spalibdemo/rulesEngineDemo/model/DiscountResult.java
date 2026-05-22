@@ -7,5 +7,5 @@ import lombok.Data;
 public class DiscountResult {
     private int discountPercent;
     private String reason;
-
+    private boolean valid = true;
 }

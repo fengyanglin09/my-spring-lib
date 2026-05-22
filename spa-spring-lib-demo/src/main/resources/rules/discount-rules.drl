@@ -2,16 +2,105 @@ package rules;
 
 import io.github.fengyanglin09.spalibdemo.rulesEngineDemo.model.DiscountRequest;
 import io.github.fengyanglin09.spalibdemo.rulesEngineDemo.model.DiscountResult;
+import io.github.fengyanglin09.spalibdemo.rulesEngineDemo.config.DiscountConfig;
+import io.github.fengyanglin09.spalibdemo.rulesEngineDemo.config.CustomerType;
+import io.github.fengyanglin09.spalibdemo.rulesEngineDemo.config.DiscountType;
 
 
-rule "VIP customer discount"
+global DiscountConfig discountConfig;
+
+rule "Missing customer type"
+salience 100
+when
+
+    $request : DiscountRequest(customerType == null)
+
+    $result : DiscountResult(valid == true)
+then
+    modify($result){
+            setValid(false),
+            setDiscountPercent(0),
+            setReason("Customer type is required")
+    }
+end
+
+rule "Missing discount type"
+salience 90
+//activation-group "validation"
 when
     $request : DiscountRequest(
-        customerType == "VIP",
+        discountType == null
+    )
+    $result : DiscountResult(valid == true)
+then
+    modify($result){
+                setValid(false),
+                setDiscountPercent(0),
+                setReason("Unsupported discount type")
+
+    }
+
+end
+
+rule "Large order discount"
+//activation-group "discount"
+salience 30
+when
+    $request : DiscountRequest(
+        discountType in (DiscountType.AUTO, DiscountType.LARGE_ONLY),
+        orderAmount.compareTo(new java.math.BigDecimal("500")) > 0
+    )
+$result : DiscountResult(valid == true)
+
+then
+    modify($result){
+            setDiscountPercent(discountConfig.getLargeOrderPercent()),
+            setReason("Large order over 500")
+    }
+end
+
+rule "VIP customer discount"
+//activation-group "discount"
+salience 20
+when
+    $request : DiscountRequest(
+        discountType in (DiscountType.AUTO, DiscountType.VIP_ONLY),
+        customerType == CustomerType.VIP,
         orderAmount.compareTo(new java.math.BigDecimal("100")) > 0
     )
-    $result : DiscountResult()
+    $result : DiscountResult(valid == true, discountPercent == 0)
 then
-    $result.setDiscountPercent(15);
-    $result.setReason("VIP customer with order over 100");
+    modify($result){
+            setDiscountPercent(discountConfig.getVipPercent()),
+            setReason("VIP customer with order over 100")
+    }
+
+end
+
+
+rule "Normal customer discount"
+//activation-group "discount"
+salience 10
+when
+    $request : DiscountRequest(
+        discountType in (DiscountType.AUTO, DiscountType.NORMAL_ONLY),
+        customerType == CustomerType.NORMAL,
+        orderAmount.compareTo(new java.math.BigDecimal("200")) > 0
+    )
+    $result : DiscountResult(valid == true, discountPercent == 0)
+then
+    modify($result){
+            setDiscountPercent(discountConfig.getNormalPercent()),
+            setReason("Normal customer with order over 200")
+    }
+
+end
+
+
+rule "No discount matched"
+salience -100
+when
+    $result : DiscountResult(valid == true, discountPercent == 0, reason == null)
+then
+    $result.setReason("No discount rule matched");
 end
