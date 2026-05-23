@@ -3,13 +3,14 @@ package io.github.fengyanglin09.droolssandbox.drools.droolsConfig;
 unit DiscountRuleUnit;
 
 import io.github.fengyanglin09.droolssandbox.drools.models.CustomerType;
-
+import io.github.fengyanglin09.droolssandbox.drools.models.DiscountMode;
 
 rule "Large order discount"
 salience 30
 activation-group "discount"
 when
     $request : /requests[
+        discountMode in (DiscountMode.AUTO, DiscountMode.LARGE_ORDER_ONLY),
         orderAmount.compareTo(new java.math.BigDecimal("500")) > 0
     ]
     $result : /results[ valid == true ]
@@ -25,6 +26,7 @@ salience 20
 activation-group "discount"
 when
     $request : /requests[
+        discountMode in (DiscountMode.AUTO, DiscountMode.VIP_ONLY),
         customerType == CustomerType.VIP,
         orderAmount.compareTo(new java.math.BigDecimal("100")) > 0
     ]
@@ -41,6 +43,7 @@ salience 10
 activation-group "discount"
 when
     $request : /requests[
+        discountMode in (DiscountMode.AUTO, DiscountMode.NORMAL_ONLY),
         customerType == CustomerType.NORMAL,
         orderAmount.compareTo(new java.math.BigDecimal("200")) > 0
     ]
