@@ -1,0 +1,53 @@
+package io.github.fengyanglin09.droolssandbox.drools.droolsConfig;
+
+unit DiscountRuleUnit;
+
+import io.github.fengyanglin09.droolssandbox.drools.models.CustomerType;
+
+
+rule "Large order discount"
+salience 30
+activation-group "discount"
+when
+    $request : /requests[
+        orderAmount.compareTo(new java.math.BigDecimal("500")) > 0
+    ]
+    $result : /results[ valid == true ]
+then
+    modify($result){
+        setDiscountPercent(20),
+        setReason("Large order over 500")
+    }
+end
+
+rule "VIP discount"
+salience 20
+activation-group "discount"
+when
+    $request : /requests[
+        customerType == CustomerType.VIP,
+        orderAmount.compareTo(new java.math.BigDecimal("100")) > 0
+    ]
+    $result : /results[ valid == true ]
+then
+    modify ($result){
+        setDiscountPercent(15),
+        setReason("VIP customer with order over 100")
+    }
+end
+
+rule "Normal discount"
+salience 10
+activation-group "discount"
+when
+    $request : /requests[
+        customerType == CustomerType.NORMAL,
+        orderAmount.compareTo(new java.math.BigDecimal("200")) > 0
+    ]
+    $result : /results[ valid == true ]
+then
+    modify($result){
+        setDiscountPercent(8),
+        setReason("Normal customer with order over 200")
+    }
+end
