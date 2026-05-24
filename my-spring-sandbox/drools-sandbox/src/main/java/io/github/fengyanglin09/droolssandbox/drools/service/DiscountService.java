@@ -10,6 +10,7 @@ import org.drools.ruleunits.api.RuleUnitProvider;
 import org.drools.ruleunits.api.conf.RuleConfig;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.function.Supplier;
 
 @Service
@@ -21,7 +22,14 @@ public class DiscountService {
     public DiscountResult calculate(DiscountRequest request) {
         DiscountRuleUnit ruleUnit = new DiscountRuleUnit();
         DiscountResult result = new DiscountResult();
-        DiscountConfig discountConfig = new DiscountConfig(20, 15, 8);
+        DiscountConfig discountConfig = new DiscountConfig(
+                20,
+                15,
+                8,
+                new BigDecimal("500"),
+                new BigDecimal("100"),
+                new BigDecimal("200")
+        );
 
         RuleConfig ruleConfig = ruleConfigSupplier.get();
 
