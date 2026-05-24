@@ -4,16 +4,20 @@ unit DiscountRuleUnit;
 
 import io.github.fengyanglin09.droolssandbox.drools.models.CustomerType;
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountMode;
-
+import io.github.fengyanglin09.droolssandbox.drools.models.DiscountConfig;
 
 
 rule "Missing customer type"
 salience 100
 activation-group "validation"
 when
+    $config : /configs
     $request : /requests[ customerType == null ]
     $result : /results[ valid == true ]
 then
+
+    $result.getFiredRules().add("Missing customer type");
+
     modify($result){
         setValid(false),
         setDiscountPercent(0),
@@ -28,6 +32,9 @@ when
     $request : /requests[ discountMode == null ]
     $result : /results[ valid == true ]
 then
+
+    $result.getFiredRules().add("Missing discount mode");
+
     modify($result) {
         setValid(false),
         setDiscountPercent(0),
@@ -42,6 +49,9 @@ when
     $request : /requests[ orderAmount == null ]
     $result : /results[ valid == true ]
 then
+
+    $result.getFiredRules().add("Missing order amount");
+
     modify($result) {
         setValid(false),
         setDiscountPercent(0),
@@ -54,14 +64,17 @@ rule "Large order discount"
 salience 30
 activation-group "discount"
 when
+    $config : /configs
     $request : /requests[
         discountMode in (DiscountMode.AUTO, DiscountMode.LARGE_ORDER_ONLY),
+        orderAmount != null,
         orderAmount.compareTo(new java.math.BigDecimal("500")) > 0
     ]
     $result : /results[ valid == true, reason == null]
 then
+    $result.getFiredRules().add("Large order discount");
     modify($result){
-        setDiscountPercent(20),
+        setDiscountPercent($config.getLargeOrderPercent()),
         setReason("Large order over 500")
     }
 end
@@ -70,15 +83,20 @@ rule "VIP discount"
 salience 20
 activation-group "discount"
 when
+    $config : /configs
     $request : /requests[
         discountMode in (DiscountMode.AUTO, DiscountMode.VIP_ONLY),
         customerType == CustomerType.VIP,
+        orderAmount != null,
         orderAmount.compareTo(new java.math.BigDecimal("100")) > 0
     ]
     $result : /results[ valid == true, reason == null ]
 then
+
+    $result.getFiredRules().add("VIP discount");
+
     modify ($result){
-        setDiscountPercent(15),
+        setDiscountPercent($config.getVipPercent()),
         setReason("VIP customer with order over 100")
     }
 end
@@ -87,15 +105,18 @@ rule "Normal discount"
 salience 10
 activation-group "discount"
 when
+    $config : /configs
     $request : /requests[
         discountMode in (DiscountMode.AUTO, DiscountMode.NORMAL_ONLY),
         customerType == CustomerType.NORMAL,
+        orderAmount != null,
         orderAmount.compareTo(new java.math.BigDecimal("200")) > 0
     ]
     $result : /results[ valid == true, reason == null ]
 then
+    $result.getFiredRules().add("Normal discount");
     modify($result){
-        setDiscountPercent(8),
+        setDiscountPercent($config.getNormalPercent()),
         setReason("Normal customer with order over 200")
     }
 end
@@ -111,6 +132,7 @@ when
         reason == null
     ]
 then
+    $result.getFiredRules().add("No discount matched");
     modify($result) {
         setReason("No discount rule matched")
     }
