@@ -1,0 +1,7 @@
+discount:
+  large-order-percent: 30
+  vip-percent: 25
+  normal-percent: 10
+  large-order-minimum-amount: 500
+  vip-minimum-amount: 100
+  normal-minimum-amount: 200

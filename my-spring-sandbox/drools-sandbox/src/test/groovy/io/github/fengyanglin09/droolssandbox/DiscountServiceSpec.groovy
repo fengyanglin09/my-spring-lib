@@ -9,10 +9,12 @@ import io.github.fengyanglin09.droolssandbox.drools.service.DiscountService
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 import spock.lang.Unroll
 
 @SpringBootTest
+@ActiveProfiles("test")
 class DiscountServiceSpec extends Specification{
 
     @Autowired
@@ -31,15 +33,15 @@ class DiscountServiceSpec extends Specification{
 //        discountConfig.normalMinimumAmount >> new BigDecimal("200")
 //    }
 
-    @SpringBean
-    DiscountConfig discountConfig = new DiscountConfig(
-            30,
-            25,
-            10,
-            new BigDecimal("500"),
-            new BigDecimal("100"),
-            new BigDecimal("200")
-    )
+//    @SpringBean
+//    DiscountConfig discountConfig = new DiscountConfig(
+//            30,
+//            25,
+//            10,
+//            new BigDecimal("500"),
+//            new BigDecimal("100"),
+//            new BigDecimal("200")
+//    )
 
 
 
