@@ -5,6 +5,51 @@ unit DiscountRuleUnit;
 import io.github.fengyanglin09.droolssandbox.drools.models.CustomerType;
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountMode;
 
+
+
+rule "Missing customer type"
+salience 100
+activation-group "validation"
+when
+    $request : /requests[ customerType == null ]
+    $result : /results[ valid == true ]
+then
+    modify($result){
+        setValid(false),
+        setDiscountPercent(0),
+        setReason("Customer type is required")
+    }
+end
+
+rule "Missing discount mode"
+salience 90
+activation-group "validation"
+when
+    $request : /requests[ discountMode == null ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setDiscountPercent(0),
+        setReason("Discount mode is required")
+    }
+end
+
+rule "Missing order amount"
+salience 80
+activation-group "validation"
+when
+    $request : /requests[ orderAmount == null ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setDiscountPercent(0),
+        setReason("Order amount is required")
+    }
+end
+
+
 rule "Large order discount"
 salience 30
 activation-group "discount"
@@ -13,7 +58,7 @@ when
         discountMode in (DiscountMode.AUTO, DiscountMode.LARGE_ORDER_ONLY),
         orderAmount.compareTo(new java.math.BigDecimal("500")) > 0
     ]
-    $result : /results[ valid == true ]
+    $result : /results[ valid == true, reason == null]
 then
     modify($result){
         setDiscountPercent(20),
@@ -30,7 +75,7 @@ when
         customerType == CustomerType.VIP,
         orderAmount.compareTo(new java.math.BigDecimal("100")) > 0
     ]
-    $result : /results[ valid == true ]
+    $result : /results[ valid == true, reason == null ]
 then
     modify ($result){
         setDiscountPercent(15),
@@ -47,10 +92,26 @@ when
         customerType == CustomerType.NORMAL,
         orderAmount.compareTo(new java.math.BigDecimal("200")) > 0
     ]
-    $result : /results[ valid == true ]
+    $result : /results[ valid == true, reason == null ]
 then
     modify($result){
         setDiscountPercent(8),
         setReason("Normal customer with order over 200")
+    }
+end
+
+
+
+rule "No discount matched"
+salience -100
+when
+    $result : /results[
+        valid == true,
+        discountPercent == 0,
+        reason == null
+    ]
+then
+    modify($result) {
+        setReason("No discount rule matched")
     }
 end
