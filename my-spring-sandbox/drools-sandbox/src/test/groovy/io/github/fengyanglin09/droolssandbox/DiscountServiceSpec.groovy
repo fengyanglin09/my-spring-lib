@@ -1,12 +1,10 @@
 package io.github.fengyanglin09.droolssandbox
 
 import io.github.fengyanglin09.droolssandbox.drools.models.CustomerType
-import io.github.fengyanglin09.droolssandbox.drools.models.DiscountConfig
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountMode
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountRequest
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountResult
 import io.github.fengyanglin09.droolssandbox.drools.service.DiscountService
-import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
