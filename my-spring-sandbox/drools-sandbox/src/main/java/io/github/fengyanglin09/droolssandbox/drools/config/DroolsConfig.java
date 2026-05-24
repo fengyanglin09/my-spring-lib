@@ -1,5 +1,6 @@
 package io.github.fengyanglin09.droolssandbox.drools.config;
 
+import io.github.fengyanglin09.droolssandbox.drools.models.DiscountConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.drools.core.event.DefaultAgendaEventListener;
 import org.drools.ruleunits.api.RuleUnitProvider;
@@ -35,6 +36,19 @@ public class DroolsConfig {
 
             return ruleConfig;
         };
+    }
+
+
+    @Bean
+    public DiscountConfig discountConfig(DiscountProperties properties) {
+        return new DiscountConfig(
+                properties.getLargeOrderPercent(),
+                properties.getVipPercent(),
+                properties.getNormalPercent(),
+                properties.getLargeOrderMinimumAmount(),
+                properties.getVipMinimumAmount(),
+                properties.getNormalMinimumAmount()
+        );
     }
 
 }

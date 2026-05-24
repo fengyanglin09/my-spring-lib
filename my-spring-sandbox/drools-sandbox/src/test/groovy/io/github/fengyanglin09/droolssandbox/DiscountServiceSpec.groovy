@@ -1,18 +1,47 @@
 package io.github.fengyanglin09.droolssandbox
 
 import io.github.fengyanglin09.droolssandbox.drools.models.CustomerType
+import io.github.fengyanglin09.droolssandbox.drools.models.DiscountConfig
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountMode
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountRequest
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountResult
 import io.github.fengyanglin09.droolssandbox.drools.service.DiscountService
+import org.spockframework.spring.SpringBean
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
-import spock.lang.Subject
 import spock.lang.Unroll
 
+@SpringBootTest
 class DiscountServiceSpec extends Specification{
 
-    @Subject
-    DiscountService discountService = new DiscountService()
+    @Autowired
+    DiscountService discountService
+
+//    @SpringBean
+//    DiscountConfig discountConfig = Stub()
+//
+//    def setup() {
+//        discountConfig.largeOrderPercent >> 30
+//        discountConfig.vipPercent >> 25
+//        discountConfig.normalPercent >> 10
+//
+//        discountConfig.largeOrderMinimumAmount >> new BigDecimal("500")
+//        discountConfig.vipMinimumAmount >> new BigDecimal("100")
+//        discountConfig.normalMinimumAmount >> new BigDecimal("200")
+//    }
+
+    @SpringBean
+    DiscountConfig discountConfig = new DiscountConfig(
+            30,
+            25,
+            10,
+            new BigDecimal("500"),
+            new BigDecimal("100"),
+            new BigDecimal("200")
+    )
+
+
 
     @Unroll
     def "calculates discount for customerType=#customerType discountMode=#discountMode orderAmount=#orderAmount"() {
@@ -26,9 +55,9 @@ class DiscountServiceSpec extends Specification{
 
         where:
         customerType         | discountMode                  | orderAmount || expectedValid | expectedPercent | expectedReason
-        CustomerType.VIP    | DiscountMode.AUTO             | "600"       || true          | 20              | "Large order over 500"
-        CustomerType.VIP    | DiscountMode.VIP_ONLY         | "600"       || true          | 15              | "VIP customer with order over 100"
-        CustomerType.NORMAL | DiscountMode.AUTO             | "250"       || true          | 8               | "Normal customer with order over 200"
+        CustomerType.VIP    | DiscountMode.AUTO             | "600"       || true          | 30              | "Large order over 500"
+        CustomerType.VIP    | DiscountMode.VIP_ONLY         | "600"       || true          | 25              | "VIP customer with order over 100"
+        CustomerType.NORMAL | DiscountMode.AUTO             | "250"       || true          | 10               | "Normal customer with order over 200"
         CustomerType.NORMAL | DiscountMode.AUTO             | "50"        || true          | 0               | "No discount rule matched"
         null                | DiscountMode.AUTO             | "600"       || false         | 0               | "Customer type is required"
         CustomerType.VIP    | null                          | "600"       || false         | 0               | "Discount mode is required"
