@@ -16,3 +16,8 @@ discount:
   large-order-minimum-amount: 500
   vip-minimum-amount: 100
   normal-minimum-amount: 200
+
+
+drools:
+  debug:
+    trace-enabled: true

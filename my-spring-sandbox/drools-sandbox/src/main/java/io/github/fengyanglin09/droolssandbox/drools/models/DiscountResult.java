@@ -12,4 +12,5 @@ public class DiscountResult {
     private int discountPercent;
     private String reason;
     private List<String> firedRules = new ArrayList<>();
+    private List<String> matchedRules = new ArrayList<>();
 }

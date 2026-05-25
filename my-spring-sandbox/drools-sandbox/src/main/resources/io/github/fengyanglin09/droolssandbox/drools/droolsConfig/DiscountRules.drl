@@ -19,7 +19,7 @@ when
     ]
     $result : /results[ valid == true, reason == null ]
 then
-    $result.getFiredRules().add("Large order discount");
+//    $result.getFiredRules().add("Large order discount");
 
     modify($result) {
         setDiscountPercent($config.getLargeOrderPercent()),
@@ -42,7 +42,7 @@ when
     ]
     $result : /results[ valid == true, reason == null ]
 then
-    $result.getFiredRules().add("VIP discount");
+//    $result.getFiredRules().add("VIP discount");
 
     modify($result) {
         setDiscountPercent($config.getVipPercent()),
@@ -65,7 +65,7 @@ when
     ]
     $result : /results[ valid == true, reason == null ]
 then
-    $result.getFiredRules().add("Normal discount");
+//    $result.getFiredRules().add("Normal discount");
 
     modify($result) {
         setDiscountPercent($config.getNormalPercent()),
@@ -84,7 +84,7 @@ when
         reason == null
     ]
 then
-    $result.getFiredRules().add("No discount matched");
+//    $result.getFiredRules().add("No discount matched");
 
     modify($result) {
         setReason("No discount rule matched")

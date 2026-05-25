@@ -1,5 +1,6 @@
 package io.github.fengyanglin09.droolssandbox.drools.service;
 
+import io.github.fengyanglin09.droolssandbox.drools.config.component.DroolsRuleConfigFactory;
 import io.github.fengyanglin09.droolssandbox.drools.droolsConfig.DiscountRuleUnit;
 import io.github.fengyanglin09.droolssandbox.drools.models.*;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,9 @@ public class DiscountService {
 
 
 
-    private final Supplier<RuleConfig> ruleConfigSupplier;
+//    private final Supplier<RuleConfig> ruleConfigSupplier;
+
+    private final DroolsRuleConfigFactory  ruleConfigFactory;
 
     private final DiscountConfig discountConfig;
 
@@ -36,13 +39,17 @@ public class DiscountService {
         DiscountRuleUnit ruleUnit = new DiscountRuleUnit();
         DiscountResult result = new DiscountResult();
 
-        RuleConfig ruleConfig = ruleConfigSupplier.get();
+//        RuleConfig ruleConfig = ruleConfigSupplier.get();
+
+
 
         ruleUnit.getRequests().add(request);
         ruleUnit.getResults().add(result);
         ruleUnit.getConfigs().add(discountConfig);
         RuleExecutionContext context = new RuleExecutionContext(RulePhase.VALIDATION);
         DataHandle contextHandle = ruleUnit.getContexts().add(context);
+
+        RuleConfig ruleConfig = this.ruleConfigFactory.create(context);
 
         try (RuleUnitInstance<DiscountRuleUnit> instance =
                      RuleUnitProvider.get().createRuleUnitInstance(ruleUnit, ruleConfig)) {
@@ -54,6 +61,9 @@ public class DiscountService {
                 instance.fire();
             }
         }
+
+        result.setMatchedRules(context.getMatchedRules());
+        result.setFiredRules(context.getFiredRules());
 
         return result;
     }

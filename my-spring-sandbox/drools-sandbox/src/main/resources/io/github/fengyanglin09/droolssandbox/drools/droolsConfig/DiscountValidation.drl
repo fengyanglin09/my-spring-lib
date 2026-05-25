@@ -16,7 +16,7 @@ when
     $result : /results[ valid == true ]
 then
 
-    $result.getFiredRules().add("Missing customer type");
+//    $result.getFiredRules().add("Missing customer type");
 
     modify($result){
         setValid(false),
@@ -35,7 +35,7 @@ when
     $result : /results[ valid == true ]
 then
 
-    $result.getFiredRules().add("Missing discount mode");
+//    $result.getFiredRules().add("Missing discount mode");
 
     modify($result) {
         setValid(false),
@@ -54,7 +54,7 @@ when
     $result : /results[ valid == true ]
 then
 
-    $result.getFiredRules().add("Missing order amount");
+//    $result.getFiredRules().add("Missing order amount");
 
     modify($result) {
         setValid(false),
