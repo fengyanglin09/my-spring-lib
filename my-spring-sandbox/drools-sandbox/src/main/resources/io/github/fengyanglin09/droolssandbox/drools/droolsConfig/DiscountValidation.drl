@@ -1,0 +1,55 @@
+package io.github.fengyanglin09.droolssandbox.drools.droolsConfig;
+
+unit DiscountRuleUnit;
+
+rule "Missing customer type"
+salience 100
+activation-group "validation"
+when
+    $config : /configs
+    $request : /requests[ customerType == null ]
+    $result : /results[ valid == true ]
+then
+
+    $result.getFiredRules().add("Missing customer type");
+
+    modify($result){
+        setValid(false),
+        setDiscountPercent(0),
+        setReason("Customer type is required")
+    }
+end
+
+rule "Missing discount mode"
+salience 90
+activation-group "validation"
+when
+    $request : /requests[ discountMode == null ]
+    $result : /results[ valid == true ]
+then
+
+    $result.getFiredRules().add("Missing discount mode");
+
+    modify($result) {
+        setValid(false),
+        setDiscountPercent(0),
+        setReason("Discount mode is required")
+    }
+end
+
+rule "Missing order amount"
+salience 80
+activation-group "validation"
+when
+    $request : /requests[ orderAmount == null ]
+    $result : /results[ valid == true ]
+then
+
+    $result.getFiredRules().add("Missing order amount");
+
+    modify($result) {
+        setValid(false),
+        setDiscountPercent(0),
+        setReason("Order amount is required")
+    }
+end
