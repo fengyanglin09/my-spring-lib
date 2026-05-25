@@ -1,18 +1,16 @@
 package io.github.fengyanglin09.droolssandbox.drools.service;
 
 import io.github.fengyanglin09.droolssandbox.drools.droolsConfig.DiscountRuleUnit;
-import io.github.fengyanglin09.droolssandbox.drools.models.DiscountConfig;
-import io.github.fengyanglin09.droolssandbox.drools.models.DiscountRequest;
-import io.github.fengyanglin09.droolssandbox.drools.models.DiscountResult;
+import io.github.fengyanglin09.droolssandbox.drools.models.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.drools.ruleunits.api.DataHandle;
 import org.drools.ruleunits.api.RuleUnitInstance;
 import org.drools.ruleunits.api.RuleUnitProvider;
 import org.drools.ruleunits.api.conf.RuleConfig;
 import org.kie.api.runtime.rule.AgendaFilter;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -43,15 +41,18 @@ public class DiscountService {
         ruleUnit.getRequests().add(request);
         ruleUnit.getResults().add(result);
         ruleUnit.getConfigs().add(discountConfig);
+        RuleExecutionContext context = new RuleExecutionContext(RulePhase.VALIDATION);
+        DataHandle contextHandle = ruleUnit.getContexts().add(context);
 
         try (RuleUnitInstance<DiscountRuleUnit> instance =
                      RuleUnitProvider.get().createRuleUnitInstance(ruleUnit, ruleConfig)) {
-//            instance.fire(match -> match.getRule().getName().startsWith("Missing"));
 
-//            instance.fire(NON_VALIDATION_RULES);
-
-            instance.fire(categoryFilter("discount"));
-//            instance.fire();
+            instance.fire();
+            if (result.isValid()) {
+                context.setPhase(RulePhase.DISCOUNT);
+                ruleUnit.getContexts().update(contextHandle, context);
+                instance.fire();
+            }
         }
 
         return result;

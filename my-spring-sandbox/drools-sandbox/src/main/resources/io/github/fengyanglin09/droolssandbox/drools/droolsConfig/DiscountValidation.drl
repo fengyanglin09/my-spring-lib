@@ -2,11 +2,15 @@ package io.github.fengyanglin09.droolssandbox.drools.droolsConfig;
 
 unit DiscountRuleUnit;
 
+import io.github.fengyanglin09.droolssandbox.drools.models.RulePhase;
+
+
 rule "Missing customer type"
 @category(validation)
 salience 100
 activation-group "validation"
 when
+    $context : /contexts[ phase == RulePhase.VALIDATION ]
     $config : /configs
     $request : /requests[ customerType == null ]
     $result : /results[ valid == true ]
@@ -26,6 +30,7 @@ rule "Missing discount mode"
 salience 90
 activation-group "validation"
 when
+    $context : /contexts[ phase == RulePhase.VALIDATION ]
     $request : /requests[ discountMode == null ]
     $result : /results[ valid == true ]
 then
@@ -44,6 +49,7 @@ rule "Missing order amount"
 salience 80
 activation-group "validation"
 when
+    $context : /contexts[ phase == RulePhase.VALIDATION ]
     $request : /requests[ orderAmount == null ]
     $result : /results[ valid == true ]
 then

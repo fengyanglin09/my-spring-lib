@@ -3,12 +3,14 @@ unit DiscountRuleUnit;
 
 import io.github.fengyanglin09.droolssandbox.drools.models.CustomerType;
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountMode;
+import io.github.fengyanglin09.droolssandbox.drools.models.RulePhase;
 
 rule "Large order discount"
 @category(discount)
 salience 30
 activation-group "discount"
 when
+    $context : /contexts[ phase == RulePhase.DISCOUNT ]
     $config : /configs
     $request : /requests[
         discountMode in (DiscountMode.AUTO, DiscountMode.LARGE_ORDER_ONLY),
@@ -30,6 +32,7 @@ rule "VIP discount"
 salience 20
 activation-group "discount"
 when
+    $context : /contexts[ phase == RulePhase.DISCOUNT ]
     $config : /configs
     $request : /requests[
         discountMode in (DiscountMode.AUTO, DiscountMode.VIP_ONLY),
@@ -52,6 +55,7 @@ rule "Normal discount"
 salience 10
 activation-group "discount"
 when
+    $context : /contexts[ phase == RulePhase.DISCOUNT ]
     $config : /configs
     $request : /requests[
         discountMode in (DiscountMode.AUTO, DiscountMode.NORMAL_ONLY),
@@ -73,6 +77,7 @@ rule "No discount matched"
 @category(discount)
 salience -100
 when
+    $context : /contexts[ phase == RulePhase.DISCOUNT ]
     $result : /results[
         valid == true,
         discountPercent == 0,
