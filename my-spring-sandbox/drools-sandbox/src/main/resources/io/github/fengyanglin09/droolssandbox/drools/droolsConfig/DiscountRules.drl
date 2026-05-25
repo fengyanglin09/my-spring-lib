@@ -4,6 +4,7 @@ unit DiscountRuleUnit;
 import io.github.fengyanglin09.droolssandbox.drools.models.CustomerType;
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountMode;
 import io.github.fengyanglin09.droolssandbox.drools.models.RulePhase;
+import io.github.fengyanglin09.droolssandbox.drools.models.DiscountAudit;
 
 rule "Large order discount"
 @category(discount)
@@ -19,7 +20,7 @@ when
     ]
     $result : /results[ valid == true, reason == null ]
 then
-//    $result.getFiredRules().add("Large order discount");
+    audits.add(new DiscountAudit("Large order discount", "Applied large order discount"));
 
     modify($result) {
         setDiscountPercent($config.getLargeOrderPercent()),
@@ -42,7 +43,7 @@ when
     ]
     $result : /results[ valid == true, reason == null ]
 then
-//    $result.getFiredRules().add("VIP discount");
+    audits.add(new DiscountAudit("VIP discount", "Applied VIP discount"));
 
     modify($result) {
         setDiscountPercent($config.getVipPercent()),
@@ -65,7 +66,7 @@ when
     ]
     $result : /results[ valid == true, reason == null ]
 then
-//    $result.getFiredRules().add("Normal discount");
+    audits.add(new DiscountAudit("No discount matched", "No discount rule matched"));
 
     modify($result) {
         setDiscountPercent($config.getNormalPercent()),
@@ -89,4 +90,9 @@ then
     modify($result) {
         setReason("No discount rule matched")
     }
+end
+
+
+query "Find all discount audits"
+    $audit : /audits
 end

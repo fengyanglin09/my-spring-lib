@@ -13,4 +13,5 @@ public class DiscountResult {
     private String reason;
     private List<String> firedRules = new ArrayList<>();
     private List<String> matchedRules = new ArrayList<>();
+    private List<String> auditMessages = new ArrayList<>();
 }

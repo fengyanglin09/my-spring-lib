@@ -10,6 +10,8 @@ import org.drools.ruleunits.api.RuleUnitInstance;
 import org.drools.ruleunits.api.RuleUnitProvider;
 import org.drools.ruleunits.api.conf.RuleConfig;
 import org.kie.api.runtime.rule.AgendaFilter;
+import org.kie.api.runtime.rule.QueryResults;
+import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -60,10 +62,20 @@ public class DiscountService {
                 ruleUnit.getContexts().update(contextHandle, context);
                 instance.fire();
             }
+
+            QueryResults queryResults = instance.executeQuery("Find all discount audits");
+
+            for (QueryResultsRow row : queryResults) {
+                DiscountAudit audit = (DiscountAudit) row.get("$audit");
+                result.getAuditMessages().add(audit.getMessage());
+            }
+
         }
 
         result.setMatchedRules(context.getMatchedRules());
         result.setFiredRules(context.getFiredRules());
+
+
 
         return result;
     }

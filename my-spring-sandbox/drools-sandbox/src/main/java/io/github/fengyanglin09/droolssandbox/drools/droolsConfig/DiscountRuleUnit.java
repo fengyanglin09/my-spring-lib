@@ -14,6 +14,6 @@ public class DiscountRuleUnit implements RuleUnitData {
     private final DataStore<DiscountResult> results = DataSource.createStore();
     private final DataStore<DiscountConfig> configs = DataSource.createStore();
     private final DataStore<RuleExecutionContext> contexts = DataSource.createStore();
-
+    private final DataStore<DiscountAudit> audits = DataSource.createStore();
 
 }
