@@ -25,12 +25,18 @@ public class DroolsConfig {
             ruleConfig.getAgendaEventListeners().add(new DefaultAgendaEventListener() {
                 @Override
                 public void matchCreated(MatchCreatedEvent event) {
-                    log.info("MATCHED: {}", event.getMatch().getRule().getName());
+                    log.info("MATCHED: {} category={}",
+                            event.getMatch().getRule().getName(),
+                            event.getMatch().getRule().getMetaData().get("category")
+                    );
                 }
 
                 @Override
                 public void afterMatchFired(AfterMatchFiredEvent event) {
-                    log.info("FIRED: {}", event.getMatch().getRule().getName());
+                    log.info("FIRED: {} category={}",
+                            event.getMatch().getRule().getName(),
+                            event.getMatch().getRule().getMetaData().get("category")
+                    );
                 }
             });
 

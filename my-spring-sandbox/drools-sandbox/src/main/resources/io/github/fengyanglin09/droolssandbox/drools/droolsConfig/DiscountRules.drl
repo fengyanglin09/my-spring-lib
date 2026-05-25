@@ -5,6 +5,7 @@ import io.github.fengyanglin09.droolssandbox.drools.models.CustomerType;
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountMode;
 
 rule "Large order discount"
+@category(discount)
 salience 30
 activation-group "discount"
 when
@@ -25,6 +26,7 @@ then
 end
 
 rule "VIP discount"
+@category(discount)
 salience 20
 activation-group "discount"
 when
@@ -46,6 +48,7 @@ then
 end
 
 rule "Normal discount"
+@category(discount)
 salience 10
 activation-group "discount"
 when
@@ -67,6 +70,7 @@ then
 end
 
 rule "No discount matched"
+@category(discount)
 salience -100
 when
     $result : /results[

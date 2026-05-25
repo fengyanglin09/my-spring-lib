@@ -5,17 +5,30 @@ import io.github.fengyanglin09.droolssandbox.drools.models.DiscountConfig;
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountRequest;
 import io.github.fengyanglin09.droolssandbox.drools.models.DiscountResult;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.drools.ruleunits.api.RuleUnitInstance;
 import org.drools.ruleunits.api.RuleUnitProvider;
 import org.drools.ruleunits.api.conf.RuleConfig;
+import org.kie.api.runtime.rule.AgendaFilter;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DiscountService {
+
+
+    private static final AgendaFilter VALIDATION_RULES =
+            match -> match.getRule().getName().startsWith("Missing ");
+
+    private static final AgendaFilter NON_VALIDATION_RULES =
+            match -> !match.getRule().getName().startsWith("Missing ");
+
+
 
     private final Supplier<RuleConfig> ruleConfigSupplier;
 
@@ -24,14 +37,6 @@ public class DiscountService {
     public DiscountResult calculate(DiscountRequest request) {
         DiscountRuleUnit ruleUnit = new DiscountRuleUnit();
         DiscountResult result = new DiscountResult();
-//        DiscountConfig discountConfig = new DiscountConfig(
-//                20,
-//                15,
-//                8,
-//                new BigDecimal("500"),
-//                new BigDecimal("100"),
-//                new BigDecimal("200")
-//        );
 
         RuleConfig ruleConfig = ruleConfigSupplier.get();
 
@@ -41,9 +46,29 @@ public class DiscountService {
 
         try (RuleUnitInstance<DiscountRuleUnit> instance =
                      RuleUnitProvider.get().createRuleUnitInstance(ruleUnit, ruleConfig)) {
-            instance.fire();
+//            instance.fire(match -> match.getRule().getName().startsWith("Missing"));
+
+//            instance.fire(NON_VALIDATION_RULES);
+
+            instance.fire(categoryFilter("discount"));
+//            instance.fire();
         }
 
         return result;
     }
+
+
+    private static AgendaFilter categoryFilter(String category) {
+
+        return match -> {
+            String ruleName = match.getRule().getName();
+            Map<String, Object> metaData = match.getRule().getMetaData();
+
+            log.info("FILTER CHECK rule= {} metadata= {}", ruleName, metaData);
+
+            return category.equals(metaData.get("category"));
+
+        };
+    }
+
 }

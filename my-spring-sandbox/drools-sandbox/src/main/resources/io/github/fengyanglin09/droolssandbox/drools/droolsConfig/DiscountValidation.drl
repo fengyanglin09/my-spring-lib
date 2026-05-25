@@ -3,6 +3,7 @@ package io.github.fengyanglin09.droolssandbox.drools.droolsConfig;
 unit DiscountRuleUnit;
 
 rule "Missing customer type"
+@category(validation)
 salience 100
 activation-group "validation"
 when
@@ -21,6 +22,7 @@ then
 end
 
 rule "Missing discount mode"
+@category(validation)
 salience 90
 activation-group "validation"
 when
@@ -38,6 +40,7 @@ then
 end
 
 rule "Missing order amount"
+@category(validation)
 salience 80
 activation-group "validation"
 when
