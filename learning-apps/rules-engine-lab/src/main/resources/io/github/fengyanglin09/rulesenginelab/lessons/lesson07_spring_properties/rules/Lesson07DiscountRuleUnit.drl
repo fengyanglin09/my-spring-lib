@@ -1,0 +1,112 @@
+package io.github.fengyanglin09.rulesenginelab.lessons.lesson07_spring_properties.rules;
+
+unit Lesson07DiscountRuleUnit;
+
+rule "Missing customer type"
+    salience 100
+when
+    $request : /requests[
+        customerType == null || customerType.trim().isEmpty()
+    ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("customerType is required"),
+        addFiredRule("Missing customer type")
+    }
+end
+
+rule "Missing order amount"
+    salience 100
+when
+    $request : /requests[ orderAmount == null ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("orderAmount is required"),
+        addFiredRule("Missing order amount")
+    }
+end
+
+rule "Negative order amount"
+    salience 100
+when
+    $request : /requests[
+        orderAmount != null,
+        orderAmount.compareTo(java.math.BigDecimal.ZERO) < 0
+    ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("orderAmount must not be negative"),
+        addFiredRule("Negative order amount")
+    }
+end
+
+rule "Large order discount"
+    /*
+     * The config fact was created by Spring from application.yml.
+     *
+     * DRL does not read application.yml directly. It only sees the Java fact in
+     * /configs.
+     */
+    activation-group "discount-winner"
+    salience 30
+when
+    $config : /configs
+    $request : /requests[
+        orderAmount != null,
+        orderAmount.compareTo($config.getLargeOrderMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true, reason == null ]
+then
+    modify($result) {
+        setDiscountPercent($config.getLargeOrderPercent()),
+        setReason("Large order"),
+        addFiredRule("Large order discount")
+    }
+end
+
+rule "VIP discount"
+    activation-group "discount-winner"
+    salience 20
+when
+    $config : /configs
+    $request : /requests[
+        customerType == "VIP",
+        orderAmount != null,
+        orderAmount.compareTo($config.getVipMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true, reason == null ]
+then
+    modify($result) {
+        setDiscountPercent($config.getVipPercent()),
+        setReason("VIP customer"),
+        addFiredRule("VIP discount")
+    }
+end
+
+rule "Normal customer discount"
+    activation-group "discount-winner"
+    salience 10
+when
+    $config : /configs
+    $request : /requests[
+        customerType == "NORMAL",
+        orderAmount != null,
+        orderAmount.compareTo($config.getNormalMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true, reason == null ]
+then
+    modify($result) {
+        setDiscountPercent($config.getNormalPercent()),
+        setReason("Normal customer"),
+        addFiredRule("Normal customer discount")
+    }
+end

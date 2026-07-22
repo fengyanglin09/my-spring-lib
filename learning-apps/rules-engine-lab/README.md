@@ -16,7 +16,7 @@ This module is an educational Spring Boot app for learning Drools step by step.
 4. [`lesson04_activation_group`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson04_activation_group/README.md): Show how only one winner rule can fire.
 5. [`lesson05_validation_rules`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson05_validation_rules/README.md): Add validation and null guards.
 6. [`lesson06_rule_unit_config`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson06_rule_unit_config/README.md): Add `DiscountConfig` as a fact.
-7. `lesson07_spring_properties`: Load config from `application.yml`.
+7. [`lesson07_spring_properties`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson07_spring_properties/README.md): Load config from `application.yml`.
 8. `lesson08_rule_tracing`: Add matched/fired rule tracing.
 9. `lesson09_phase_execution`: Add validation/discount phases.
 10. `lesson10_queries`: Add DRL queries and `executeQuery`.
@@ -39,3 +39,4 @@ learning should start from `lesson01_create_rule`.
 - [Lesson 04: Activation Group](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson04_activation_group/README.md)
 - [Lesson 05: Validation Rules](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson05_validation_rules/README.md)
 - [Lesson 06: Rule Unit Config](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson06_rule_unit_config/README.md)
+- [Lesson 07: Spring Properties](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson07_spring_properties/README.md)

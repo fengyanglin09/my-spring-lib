@@ -17,6 +17,16 @@ discount:
   vip-minimum-amount: 100
   normal-minimum-amount: 200
 
+rules-engine:
+  lessons:
+    lesson-07:
+      discount:
+        large-order-percent: 18
+        vip-percent: 11
+        normal-percent: 6
+        large-order-minimum-amount: 500
+        vip-minimum-amount: 100
+        normal-minimum-amount: 200
 
 drools:
   debug:
