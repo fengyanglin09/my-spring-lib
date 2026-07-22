@@ -14,7 +14,7 @@ This module is an educational Spring Boot app for learning Drools step by step.
 2. [`lesson02_multiple_rules`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson02_multiple_rules/README.md): Add VIP, normal, and large-order rules.
 3. [`lesson03_salience`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson03_salience/README.md): Show how firing order works.
 4. [`lesson04_activation_group`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson04_activation_group/README.md): Show how only one winner rule can fire.
-5. `lesson05_validation_rules`: Add validation and null guards.
+5. [`lesson05_validation_rules`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson05_validation_rules/README.md): Add validation and null guards.
 6. `lesson06_rule_unit_config`: Add `DiscountConfig` as a fact.
 7. `lesson07_spring_properties`: Load config from `application.yml`.
 8. `lesson08_rule_tracing`: Add matched/fired rule tracing.
@@ -37,3 +37,4 @@ learning should start from `lesson01_create_rule`.
 - [Lesson 02: Multiple Rules](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson02_multiple_rules/README.md)
 - [Lesson 03: Salience](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson03_salience/README.md)
 - [Lesson 04: Activation Group](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson04_activation_group/README.md)
+- [Lesson 05: Validation Rules](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson05_validation_rules/README.md)

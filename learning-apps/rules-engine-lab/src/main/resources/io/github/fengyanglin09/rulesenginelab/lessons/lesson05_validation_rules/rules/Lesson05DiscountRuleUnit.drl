@@ -1,0 +1,120 @@
+package io.github.fengyanglin09.rulesenginelab.lessons.lesson05_validation_rules.rules;
+
+unit Lesson05DiscountRuleUnit;
+
+rule "Missing customer type"
+    /*
+     * Validation rules use high salience so they run before discount rules.
+     *
+     * This rule also shows a null guard: check customerType == null before
+     * calling methods on customerType. Calling trim() on null would throw an
+     * exception.
+     */
+    salience 100
+when
+    $request : /requests[
+        customerType == null || customerType.trim().isEmpty()
+    ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("customerType is required"),
+        addFiredRule("Missing customer type")
+    }
+end
+
+rule "Missing order amount"
+    /*
+     * Keep null checks in validation rules. Then discount rules can safely use
+     * orderAmount.compareTo(...) after they also check orderAmount != null.
+     */
+    salience 100
+when
+    $request : /requests[ orderAmount == null ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("orderAmount is required"),
+        addFiredRule("Missing order amount")
+    }
+end
+
+rule "Negative order amount"
+    /*
+     * The first condition is a null guard for the compareTo call.
+     *
+     * Commas inside one pattern mean AND, so both conditions must be true:
+     *   orderAmount is not null
+     *   AND orderAmount is less than 0
+     */
+    salience 100
+when
+    $request : /requests[
+        orderAmount != null,
+        orderAmount.compareTo(java.math.BigDecimal.ZERO) < 0
+    ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("orderAmount must not be negative"),
+        addFiredRule("Negative order amount")
+    }
+end
+
+rule "Large order discount"
+    /*
+     * Discount rules require valid == true.
+     *
+     * If a validation rule already marked the result invalid, this rule will
+     * not run. The orderAmount != null condition is still kept as a local guard
+     * because this rule calls orderAmount.compareTo(...).
+     */
+    activation-group "discount-winner"
+    salience 30
+when
+    $request : /requests[
+        orderAmount != null,
+        orderAmount.compareTo(new java.math.BigDecimal("500")) > 0
+    ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setDiscountPercent(15),
+        setReason("Large order"),
+        addFiredRule("Large order discount")
+    }
+end
+
+rule "VIP discount"
+    activation-group "discount-winner"
+    salience 20
+when
+    $request : /requests[ customerType == "VIP" ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setDiscountPercent(10),
+        setReason("VIP customer"),
+        addFiredRule("VIP discount")
+    }
+end
+
+rule "Normal customer discount"
+    activation-group "discount-winner"
+    salience 10
+when
+    $request : /requests[ customerType == "NORMAL" ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setDiscountPercent(5),
+        setReason("Normal customer"),
+        addFiredRule("Normal customer discount")
+    }
+end
