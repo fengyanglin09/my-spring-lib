@@ -11,7 +11,7 @@ This module is an educational Spring Boot app for learning Drools step by step.
 ## Lesson Path
 
 1. [`lesson01_create_rule`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson01_create_rule/README.md): One request, one result, one DRL rule.
-2. `lesson02_multiple_rules`: Add VIP, normal, and large-order rules.
+2. [`lesson02_multiple_rules`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson02_multiple_rules/README.md): Add VIP, normal, and large-order rules.
 3. `lesson03_salience`: Show how firing order works.
 4. `lesson04_activation_group`: Show how only one winner rule can fire.
 5. `lesson05_validation_rules`: Add validation and null guards.
@@ -34,3 +34,4 @@ learning should start from `lesson01_create_rule`.
 ## Implemented Lesson Notes
 
 - [Lesson 01: Create Rule](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson01_create_rule/README.md)
+- [Lesson 02: Multiple Rules](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson02_multiple_rules/README.md)

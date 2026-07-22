@@ -1,0 +1,57 @@
+package io.github.fengyanglin09.rulesenginelab.lessons.lesson02_multiple_rules.rules;
+
+unit Lesson02DiscountRuleUnit;
+
+rule "VIP discount"
+when
+    // Match a request fact from /requests where customerType is VIP.
+    $request : /requests[ customerType == "VIP" ]
+    // Match the single result fact Java inserted before firing rules.
+    $result : /results
+then
+    modify($result) {
+        setDiscountPercent(10),
+        setReason("VIP customer")
+    }
+end
+
+rule "Normal customer discount"
+when
+    // This is a second independent rule over the same /requests store.
+    $request : /requests[ customerType == "NORMAL" ]
+    $result : /results
+then
+    modify($result) {
+        setDiscountPercent(5),
+        setReason("Normal customer")
+    }
+end
+
+rule "Large guest order discount"
+when
+    /*
+     * This rule demonstrates that rules can check more than one property.
+     *
+     * The customerType == "GUEST" condition keeps this lesson simple by
+     * avoiding overlap with the VIP and normal-customer rules. Lesson 03 will
+     * intentionally create overlapping matches so firing order becomes visible.
+     *
+     * The commas between these constraints mean AND:
+     *   customerType must be GUEST
+     *   AND orderAmount must not be null
+     *   AND orderAmount must be greater than 500
+     *
+     * All three conditions must be true for this rule to match.
+     */
+    $request : /requests[
+        customerType == "GUEST",
+        orderAmount != null,
+        orderAmount.compareTo(new java.math.BigDecimal("500")) > 0
+    ]
+    $result : /results
+then
+    modify($result) {
+        setDiscountPercent(15),
+        setReason("Large guest order")
+    }
+end
