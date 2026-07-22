@@ -1,0 +1,68 @@
+package io.github.fengyanglin09.rulesenginelab.lessons.lesson04_activation_group.rules;
+
+unit Lesson04DiscountRuleUnit;
+
+rule "Large order discount"
+    /*
+     * All three discount rules use the same activation group.
+     *
+     * If multiple rules in this group match, Drools lets one rule fire and then
+     * cancels the other pending activations in the same group.
+     *
+     * Salience still matters: it decides which matched rule gets the first
+     * chance to fire. Because this rule has the highest salience, it wins when
+     * a request is both VIP and a large order.
+     */
+    activation-group "discount-winner"
+    salience 30
+when
+    $request : /requests[
+        orderAmount != null,
+        orderAmount.compareTo(new java.math.BigDecimal("500")) > 0
+    ]
+    $result : /results
+then
+    modify($result) {
+        setDiscountPercent(15),
+        setReason("Large order"),
+        addFiredRule("Large order discount")
+    }
+end
+
+rule "VIP discount"
+    /*
+     * This rule is in the same activation group as the large-order rule.
+     *
+     * For VIP + orderAmount > 500, both rules match. The large-order rule fires
+     * first because it has higher salience, then this VIP activation is
+     * canceled before it can overwrite the result.
+     */
+    activation-group "discount-winner"
+    salience 20
+when
+    $request : /requests[ customerType == "VIP" ]
+    $result : /results
+then
+    modify($result) {
+        setDiscountPercent(10),
+        setReason("VIP customer"),
+        addFiredRule("VIP discount")
+    }
+end
+
+rule "Normal customer discount"
+    /*
+     * Same activation group, lower salience.
+     */
+    activation-group "discount-winner"
+    salience 10
+when
+    $request : /requests[ customerType == "NORMAL" ]
+    $result : /results
+then
+    modify($result) {
+        setDiscountPercent(5),
+        setReason("Normal customer"),
+        addFiredRule("Normal customer discount")
+    }
+end
