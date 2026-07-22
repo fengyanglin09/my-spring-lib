@@ -1,0 +1,55 @@
+package io.github.fengyanglin09.rulesenginelab.examples.advanced_discount_rules.rules;
+
+unit AdvancedDiscountRuleUnit;
+
+import io.github.fengyanglin09.rulesenginelab.examples.advanced_discount_rules.model.RulePhase;
+
+
+rule "Missing customer type"
+@category(validation)
+salience 100
+activation-group "validation"
+when
+    $context : /contexts[ phase == RulePhase.VALIDATION ]
+    $config : /configs
+    $request : /requests[ customerType == null ]
+    $result : /results[ valid == true ]
+then
+    modify($result){
+        setValid(false),
+        setDiscountPercent(0),
+        setReason("Customer type is required")
+    }
+end
+
+rule "Missing discount mode"
+@category(validation)
+salience 90
+activation-group "validation"
+when
+    $context : /contexts[ phase == RulePhase.VALIDATION ]
+    $request : /requests[ discountMode == null ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setDiscountPercent(0),
+        setReason("Discount mode is required")
+    }
+end
+
+rule "Missing order amount"
+@category(validation)
+salience 80
+activation-group "validation"
+when
+    $context : /contexts[ phase == RulePhase.VALIDATION ]
+    $request : /requests[ orderAmount == null ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setDiscountPercent(0),
+        setReason("Order amount is required")
+    }
+end

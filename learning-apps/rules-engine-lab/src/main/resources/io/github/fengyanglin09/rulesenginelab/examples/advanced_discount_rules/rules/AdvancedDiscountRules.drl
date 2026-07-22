@@ -1,0 +1,96 @@
+package io.github.fengyanglin09.rulesenginelab.examples.advanced_discount_rules.rules;
+unit AdvancedDiscountRuleUnit;
+
+import io.github.fengyanglin09.rulesenginelab.examples.advanced_discount_rules.model.CustomerType;
+import io.github.fengyanglin09.rulesenginelab.examples.advanced_discount_rules.model.DiscountMode;
+import io.github.fengyanglin09.rulesenginelab.examples.advanced_discount_rules.model.RulePhase;
+import io.github.fengyanglin09.rulesenginelab.examples.advanced_discount_rules.model.DiscountAudit;
+
+rule "Large order discount"
+@category(discount)
+salience 30
+activation-group "discount"
+when
+    $context : /contexts[ phase == RulePhase.DISCOUNT ]
+    $config : /configs
+    $request : /requests[
+        discountMode in (DiscountMode.AUTO, DiscountMode.LARGE_ORDER_ONLY),
+        orderAmount != null,
+        orderAmount.compareTo($config.getLargeOrderMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true, reason == null ]
+then
+    audits.add(new DiscountAudit("Large order discount", "Applied large order discount"));
+
+    modify($result) {
+        setDiscountPercent($config.getLargeOrderPercent()),
+        setReason("Large order over 500")
+    }
+end
+
+rule "VIP discount"
+@category(discount)
+salience 20
+activation-group "discount"
+when
+    $context : /contexts[ phase == RulePhase.DISCOUNT ]
+    $config : /configs
+    $request : /requests[
+        discountMode in (DiscountMode.AUTO, DiscountMode.VIP_ONLY),
+        customerType == CustomerType.VIP,
+        orderAmount != null,
+        orderAmount.compareTo($config.getVipMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true, reason == null ]
+then
+    audits.add(new DiscountAudit("VIP discount", "Applied VIP discount"));
+
+    modify($result) {
+        setDiscountPercent($config.getVipPercent()),
+        setReason("VIP customer with order over 100")
+    }
+end
+
+rule "Normal discount"
+@category(discount)
+salience 10
+activation-group "discount"
+when
+    $context : /contexts[ phase == RulePhase.DISCOUNT ]
+    $config : /configs
+    $request : /requests[
+        discountMode in (DiscountMode.AUTO, DiscountMode.NORMAL_ONLY),
+        customerType == CustomerType.NORMAL,
+        orderAmount != null,
+        orderAmount.compareTo($config.getNormalMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true, reason == null ]
+then
+    audits.add(new DiscountAudit("Normal discount", "Applied normal discount"));
+
+    modify($result) {
+        setDiscountPercent($config.getNormalPercent()),
+        setReason("Normal customer with order over 200")
+    }
+end
+
+rule "No discount matched"
+@category(discount)
+salience -100
+when
+    $context : /contexts[ phase == RulePhase.DISCOUNT ]
+    $result : /results[
+        valid == true,
+        discountPercent == 0,
+        reason == null
+    ]
+then
+    modify($result) {
+        setReason("No discount rule matched")
+    }
+end
+
+
+query "Find all discount audits"
+    $audit : /audits
+end

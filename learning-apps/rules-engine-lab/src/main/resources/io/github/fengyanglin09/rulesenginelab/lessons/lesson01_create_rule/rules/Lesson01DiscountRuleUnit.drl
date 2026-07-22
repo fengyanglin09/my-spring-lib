@@ -1,0 +1,25 @@
+package io.github.fengyanglin09.rulesenginelab.lessons.lesson01_create_rule.rules;
+
+// Connects this DRL file to the Java Lesson01DiscountRuleUnit class.
+unit Lesson01DiscountRuleUnit;
+
+rule "VIP customer discount"
+when
+    // This line has three parts:
+    //   $request       -> a variable name we can use later in this rule
+    //   /requests      -> the DataStore from Lesson01DiscountRuleUnit.getRequests()
+    //   [ ... ]        -> a condition that must be true for the rule to match
+    //
+    // So this means:
+    // "Find a request fact in the requests store where customerType is VIP,
+    //  and bind that fact to the variable $request."
+    $request : /requests[ customerType == "VIP" ]
+    // /results maps to Lesson01DiscountRuleUnit.getResults().
+    $result : /results
+then
+    // modify(...) updates the existing result fact and notifies Drools.
+    modify($result) {
+        setDiscountPercent(10),
+        setReason("VIP customer")
+    }
+end

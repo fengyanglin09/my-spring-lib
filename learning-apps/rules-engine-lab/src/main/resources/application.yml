@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: rules-engine-lab
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+
+discount:
+  large-order-percent: 20
+  vip-percent: 15
+  normal-percent: 8
+  large-order-minimum-amount: 500
+  vip-minimum-amount: 100
+  normal-minimum-amount: 200
+
+
+drools:
+  debug:
+    trace-enabled: true
