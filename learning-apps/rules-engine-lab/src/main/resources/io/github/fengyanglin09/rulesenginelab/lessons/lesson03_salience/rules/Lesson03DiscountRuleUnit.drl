@@ -1,0 +1,65 @@
+package io.github.fengyanglin09.rulesenginelab.lessons.lesson03_salience.rules;
+
+unit Lesson03DiscountRuleUnit;
+
+rule "VIP discount"
+    /*
+     * Higher salience fires earlier.
+     *
+     * This rule has salience 20, so if it and the large-order rule both match,
+     * Drools fires this rule first.
+     *
+     * Important: firing first does not mean this is the only rule that fires.
+     * All rules with satisfied conditions can still run.
+     */
+    salience 20
+when
+    $request : /requests[ customerType == "VIP" ]
+    $result : /results
+then
+    modify($result) {
+        setDiscountPercent(10),
+        setReason("VIP customer"),
+        addFiredRule("VIP discount")
+    }
+end
+
+rule "Large order discount"
+    /*
+     * This rule has lower salience than the VIP rule.
+     *
+     * It can still fire after the VIP rule. Salience controls order; it does
+     * not mean "pick only this rule."
+     *
+     * Example: VIP + orderAmount > 500 satisfies both rules. The VIP rule fires
+     * first, then this rule fires second and overwrites the final result.
+     */
+    salience 10
+when
+    $request : /requests[
+        orderAmount != null,
+        orderAmount.compareTo(new java.math.BigDecimal("500")) > 0
+    ]
+    $result : /results
+then
+    modify($result) {
+        setDiscountPercent(15),
+        setReason("Large order"),
+        addFiredRule("Large order discount")
+    }
+end
+
+rule "Normal customer discount"
+    /*
+     * Rules without salience default to 0.
+     */
+when
+    $request : /requests[ customerType == "NORMAL" ]
+    $result : /results
+then
+    modify($result) {
+        setDiscountPercent(5),
+        setReason("Normal customer"),
+        addFiredRule("Normal customer discount")
+    }
+end
