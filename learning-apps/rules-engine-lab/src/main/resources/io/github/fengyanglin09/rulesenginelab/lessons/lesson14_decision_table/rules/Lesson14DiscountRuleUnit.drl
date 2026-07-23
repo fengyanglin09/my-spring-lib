@@ -1,0 +1,50 @@
+package io.github.fengyanglin09.rulesenginelab.lessons.lesson14_decision_table.rules;
+
+unit Lesson14DiscountRuleUnit;
+
+rule "Apply best matching decision row"
+    /*
+     * Decision-table idea:
+     *   - the CSV rows are inserted into /decisionRows as facts
+     *   - each row says "when customer/order match, use this discount"
+     *   - this rule keeps replacing the result only when a matching row has a
+     *     better discount than the current result
+     *
+     * Several rows may match one request. For example, VIP with a 600-dollar
+     * order matches both "VIP customer" and "Large order". The
+     * discountPercent check makes the highest-percent row win.
+     */
+    salience 10
+when
+    $request : /requests
+    $row : /decisionRows[
+        matchesCustomerType($request.customerType),
+        $request.orderAmountCents >= minimumOrderAmountCents
+    ]
+    $result : /results[
+        valid == true,
+        discountPercent < $row.getDiscountPercent()
+    ]
+then
+    modify($result) {
+        setDiscountPercent($row.getDiscountPercent()),
+        setReason($row.getReason()),
+        setMatchedDecisionRow($row.getRowName()),
+        addFiredRule("Apply best matching decision row: " + $row.getRowName())
+    }
+end
+
+rule "No decision row matched"
+    salience -100
+when
+    $result : /results[
+        valid == true,
+        discountPercent == 0,
+        reason == null
+    ]
+then
+    modify($result) {
+        setReason("No decision row matched"),
+        addFiredRule("No decision row matched")
+    }
+end

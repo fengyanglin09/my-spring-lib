@@ -23,7 +23,7 @@ This module is an educational Spring Boot app for learning Drools step by step.
 11. [`lesson11_candidate_facts`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson11_candidate_facts/README.md): Let rules create candidate facts.
 12. [`lesson12_candidate_selection`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson12_candidate_selection/README.md): Pick the best candidate.
 13. [`lesson13_accumulate`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson13_accumulate/README.md): Calculate totals from cart items.
-14. `lesson14_decision_table`: Introduce spreadsheet-like rules.
+14. [`lesson14_decision_table`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson14_decision_table/README.md): Introduce spreadsheet-like rules.
 
 ## Current Example
 
@@ -46,3 +46,4 @@ learning should start from `lesson01_create_rule`.
 - [Lesson 11: Candidate Facts](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson11_candidate_facts/README.md)
 - [Lesson 12: Candidate Selection](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson12_candidate_selection/README.md)
 - [Lesson 13: Accumulate](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson13_accumulate/README.md)
+- [Lesson 14: Decision Table Pattern](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson14_decision_table/README.md)

@@ -1,0 +1,4 @@
+rowName,customerType,minimumOrderAmountCents,discountPercent,reason
+Large order,ANY,50000,15,Large order over 500
+VIP customer,VIP,10000,10,VIP customer over 100
+Normal customer,NORMAL,20000,5,Normal customer over 200
