@@ -1,0 +1,98 @@
+package io.github.fengyanglin09.rulesenginelab.lessons.lesson12_candidate_selection.rules;
+
+unit Lesson12DiscountRuleUnit;
+
+import io.github.fengyanglin09.rulesenginelab.lessons.lesson12_candidate_selection.model.Lesson12DiscountCandidate;
+import io.github.fengyanglin09.rulesenginelab.lessons.lesson12_candidate_selection.model.Lesson12RulePhase;
+
+rule "Missing customer type"
+when
+    $context : /contexts[ phase == Lesson12RulePhase.VALIDATION ]
+    $request : /requests[
+        customerType == null || customerType.trim().isEmpty()
+    ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("customerType is required")
+    }
+end
+
+rule "Missing order amount"
+when
+    $context : /contexts[ phase == Lesson12RulePhase.VALIDATION ]
+    $request : /requests[ orderAmount == null ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("orderAmount is required")
+    }
+end
+
+rule "Large order candidate"
+    /*
+     * Candidate generation still lives in DRL.
+     *
+     * The rule creates a possible discount. It does not decide whether this
+     * candidate wins. Lesson12DiscountService selects the highest-percent
+     * candidate after all candidate rules have fired.
+     */
+when
+    $context : /contexts[ phase == Lesson12RulePhase.DISCOUNT ]
+    $config : /configs
+    $request : /requests[
+        orderAmount != null,
+        orderAmount.compareTo($config.getLargeOrderMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true ]
+then
+    candidates.add(new Lesson12DiscountCandidate(
+        "Large order candidate",
+        $config.getLargeOrderPercent(),
+        "Large order"
+    ));
+end
+
+rule "VIP candidate"
+when
+    $context : /contexts[ phase == Lesson12RulePhase.DISCOUNT ]
+    $config : /configs
+    $request : /requests[
+        customerType == "VIP",
+        orderAmount != null,
+        orderAmount.compareTo($config.getVipMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true ]
+then
+    candidates.add(new Lesson12DiscountCandidate(
+        "VIP candidate",
+        $config.getVipPercent(),
+        "VIP customer"
+    ));
+end
+
+rule "Normal customer candidate"
+when
+    $context : /contexts[ phase == Lesson12RulePhase.DISCOUNT ]
+    $config : /configs
+    $request : /requests[
+        customerType == "NORMAL",
+        orderAmount != null,
+        orderAmount.compareTo($config.getNormalMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true ]
+then
+    candidates.add(new Lesson12DiscountCandidate(
+        "Normal customer candidate",
+        $config.getNormalPercent(),
+        "Normal customer"
+    ));
+end
+
+query "Find all discount candidates"
+    $candidate : /candidates
+end
