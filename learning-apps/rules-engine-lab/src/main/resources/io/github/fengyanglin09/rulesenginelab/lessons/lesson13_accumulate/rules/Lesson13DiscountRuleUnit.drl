@@ -1,0 +1,109 @@
+package io.github.fengyanglin09.rulesenginelab.lessons.lesson13_accumulate.rules;
+
+unit Lesson13DiscountRuleUnit;
+
+rule "Missing customer type"
+    salience 100
+when
+    $request : /requests[
+        customerType == null || customerType.trim().isEmpty()
+    ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("customerType is required"),
+        addFiredRule("Missing customer type")
+    }
+end
+
+rule "Missing cart items"
+    salience 100
+when
+    $request : /requests[ items == null || items.isEmpty() ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("at least one cart item is required"),
+        addFiredRule("Missing cart items")
+    }
+end
+
+rule "Calculate cart total"
+    /*
+     * accumulate lets a rule calculate over many facts.
+     *
+     * This means:
+     *   look at every item fact in /items
+     *   read each item's lineTotalCents
+     *   sum those line totals
+     *   bind the result to $total
+     */
+    salience 50
+when
+    $result : /results[ valid == true, totalCalculated == false ]
+    $total : Number() from accumulate(
+        $item : /items,
+        sum($item.lineTotalCents)
+    )
+then
+    modify($result) {
+        setTotalCents($total.intValue()),
+        setTotalCalculated(true),
+        addFiredRule("Calculate cart total")
+    }
+end
+
+rule "Large cart discount"
+    activation-group "discount-winner"
+    salience 30
+when
+    $config : /configs
+    $result : /results[
+        valid == true,
+        totalCalculated == true,
+        totalCents >= $config.getLargeCartMinimumCents()
+    ]
+then
+    modify($result) {
+        setDiscountPercent($config.getLargeCartPercent()),
+        setReason("Large cart total"),
+        addFiredRule("Large cart discount")
+    }
+end
+
+rule "VIP cart discount"
+    activation-group "discount-winner"
+    salience 20
+when
+    $request : /requests[ customerType == "VIP" ]
+    $result : /results[
+        valid == true,
+        totalCalculated == true
+    ]
+then
+    modify($result) {
+        setDiscountPercent(10),
+        setReason("VIP cart customer"),
+        addFiredRule("VIP cart discount")
+    }
+end
+
+rule "No cart discount"
+    salience -100
+when
+    $result : /results[
+        valid == true,
+        totalCalculated == true,
+        discountPercent == 0,
+        reason == null
+    ]
+then
+    modify($result) {
+        setReason("No cart discount matched"),
+        addFiredRule("No cart discount")
+    }
+end
