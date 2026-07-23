@@ -20,7 +20,7 @@ This module is an educational Spring Boot app for learning Drools step by step.
 8. [`lesson08_rule_tracing`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson08_rule_tracing/README.md): Add matched/fired rule tracing.
 9. [`lesson09_phase_execution`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson09_phase_execution/README.md): Add validation/discount phases.
 10. [`lesson10_queries`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson10_queries/README.md): Add DRL queries and `executeQuery`.
-11. `lesson11_candidate_facts`: Let rules create candidate facts.
+11. [`lesson11_candidate_facts`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson11_candidate_facts/README.md): Let rules create candidate facts.
 12. `lesson12_candidate_selection`: Pick the best candidate.
 13. `lesson13_accumulate`: Calculate totals from cart items.
 14. `lesson14_decision_table`: Introduce spreadsheet-like rules.
@@ -43,3 +43,4 @@ learning should start from `lesson01_create_rule`.
 - [Lesson 08: Rule Tracing](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson08_rule_tracing/README.md)
 - [Lesson 09: Phase Execution](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson09_phase_execution/README.md)
 - [Lesson 10: Queries](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson10_queries/README.md)
+- [Lesson 11: Candidate Facts](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson11_candidate_facts/README.md)
