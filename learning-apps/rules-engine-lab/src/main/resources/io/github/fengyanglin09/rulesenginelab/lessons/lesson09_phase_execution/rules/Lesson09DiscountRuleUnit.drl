@@ -1,0 +1,114 @@
+package io.github.fengyanglin09.rulesenginelab.lessons.lesson09_phase_execution.rules;
+
+unit Lesson09DiscountRuleUnit;
+
+import io.github.fengyanglin09.rulesenginelab.lessons.lesson09_phase_execution.model.Lesson09RulePhase;
+
+rule "Missing customer type"
+when
+    /*
+     * This rule can only match during the VALIDATION phase.
+     */
+    $context : /contexts[ phase == Lesson09RulePhase.VALIDATION ]
+    $request : /requests[
+        customerType == null || customerType.trim().isEmpty()
+    ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("customerType is required")
+    }
+end
+
+rule "Missing order amount"
+when
+    $context : /contexts[ phase == Lesson09RulePhase.VALIDATION ]
+    $request : /requests[ orderAmount == null ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("orderAmount is required")
+    }
+end
+
+rule "Negative order amount"
+when
+    $context : /contexts[ phase == Lesson09RulePhase.VALIDATION ]
+    $request : /requests[
+        orderAmount != null,
+        orderAmount.compareTo(java.math.BigDecimal.ZERO) < 0
+    ]
+    $result : /results[ valid == true ]
+then
+    modify($result) {
+        setValid(false),
+        setReason("Invalid request"),
+        addValidationError("orderAmount must not be negative")
+    }
+end
+
+rule "Large order discount"
+    /*
+     * This rule can only match during the DISCOUNT phase.
+     *
+     * The service moves the context from VALIDATION to DISCOUNT only if the
+     * result is still valid after validation rules fire.
+     */
+    activation-group "discount-winner"
+    salience 30
+when
+    $context : /contexts[ phase == Lesson09RulePhase.DISCOUNT ]
+    $config : /configs
+    $request : /requests[
+        orderAmount != null,
+        orderAmount.compareTo($config.getLargeOrderMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true, reason == null ]
+then
+    modify($result) {
+        setDiscountPercent($config.getLargeOrderPercent()),
+        setReason("Large order")
+    }
+end
+
+rule "VIP discount"
+    activation-group "discount-winner"
+    salience 20
+when
+    $context : /contexts[ phase == Lesson09RulePhase.DISCOUNT ]
+    $config : /configs
+    $request : /requests[
+        customerType == "VIP",
+        orderAmount != null,
+        orderAmount.compareTo($config.getVipMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true, reason == null ]
+then
+    modify($result) {
+        setDiscountPercent($config.getVipPercent()),
+        setReason("VIP customer")
+    }
+end
+
+rule "Normal customer discount"
+    activation-group "discount-winner"
+    salience 10
+when
+    $context : /contexts[ phase == Lesson09RulePhase.DISCOUNT ]
+    $config : /configs
+    $request : /requests[
+        customerType == "NORMAL",
+        orderAmount != null,
+        orderAmount.compareTo($config.getNormalMinimumAmount()) > 0
+    ]
+    $result : /results[ valid == true, reason == null ]
+then
+    modify($result) {
+        setDiscountPercent($config.getNormalPercent()),
+        setReason("Normal customer")
+    }
+end

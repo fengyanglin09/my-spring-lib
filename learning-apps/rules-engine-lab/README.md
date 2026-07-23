@@ -18,7 +18,7 @@ This module is an educational Spring Boot app for learning Drools step by step.
 6. [`lesson06_rule_unit_config`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson06_rule_unit_config/README.md): Add `DiscountConfig` as a fact.
 7. [`lesson07_spring_properties`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson07_spring_properties/README.md): Load config from `application.yml`.
 8. [`lesson08_rule_tracing`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson08_rule_tracing/README.md): Add matched/fired rule tracing.
-9. `lesson09_phase_execution`: Add validation/discount phases.
+9. [`lesson09_phase_execution`](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson09_phase_execution/README.md): Add validation/discount phases.
 10. `lesson10_queries`: Add DRL queries and `executeQuery`.
 11. `lesson11_candidate_facts`: Let rules create candidate facts.
 12. `lesson12_candidate_selection`: Pick the best candidate.
@@ -41,3 +41,4 @@ learning should start from `lesson01_create_rule`.
 - [Lesson 06: Rule Unit Config](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson06_rule_unit_config/README.md)
 - [Lesson 07: Spring Properties](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson07_spring_properties/README.md)
 - [Lesson 08: Rule Tracing](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson08_rule_tracing/README.md)
+- [Lesson 09: Phase Execution](src/main/java/io/github/fengyanglin09/rulesenginelab/lessons/lesson09_phase_execution/README.md)
