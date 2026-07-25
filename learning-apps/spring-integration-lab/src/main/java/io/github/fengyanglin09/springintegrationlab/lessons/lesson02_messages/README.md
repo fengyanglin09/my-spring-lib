@@ -194,6 +194,61 @@ to understand the business meaning of the order, the message shape is probably
 wrong. The payload should tell the business story; headers should help the
 message travel.
 
+## Files
+
+- `model/Lesson02OrderRequest.java`: the business payload sent into the flow.
+- `model/Lesson02MessageReport.java`: the reply payload returned by the handler.
+- `support/Lesson02Headers.java`: shared custom header names for this lesson.
+- `gateway/Lesson02MessageGateway.java`: creates a message from a payload argument and header arguments.
+- `flow/Lesson02MessagesFlow.java`: routes messages from the lesson 02 channel to the inspector.
+- `handler/Lesson02MessageInspector.java`: receives the full `Message<Lesson02OrderRequest>` and reads payload plus headers.
+- `Lesson02MessagesSpec.groovy`: proves payload and headers travel together.
+
+## Code Walkthrough
+
+This lesson makes the message wrapper visible:
+
+```text
+test caller
+    -> Lesson02MessageGateway.inspect(payload, tenantId, sourceSystem)
+    -> Message
+        payload: Lesson02OrderRequest
+        headers:
+            lesson02_tenantId
+            lesson02_sourceSystem
+            id
+            timestamp
+    -> lesson02Messages channel
+    -> Lesson02MessagesFlow
+    -> Lesson02MessageInspector
+    -> Lesson02MessageReport reply
+```
+
+The gateway method uses `@Payload` and `@Header` to say which method arguments
+become the message payload and which become message headers.
+
+The handler accepts `Message<Lesson02OrderRequest>` instead of just
+`Lesson02OrderRequest`. That is the key difference from lesson 01. Accepting the
+full `Message` lets the handler inspect:
+
+- `message.getPayload()`: the order request.
+- `message.getHeaders()`: tenant, source system, framework ID, timestamp, and other metadata.
+
+The point is not that every handler should accept `Message<?>`. Many handlers
+should only receive the payload. The point is to see the two-part message model
+clearly once before later lessons use it indirectly.
+
+## Run The Lesson Test
+
+```bash
+./mvnw -pl learning-apps/spring-integration-lab -Dtest=Lesson02MessagesSpec test
+```
+
+## What Comes Next
+
+Lesson 03 keeps the same message model but focuses on channels: how messages
+move between producers and consumers, and why channel type changes behavior.
+
 ## Official Docs
 
 - [Message](https://docs.spring.io/spring-integration/reference/message.html)
