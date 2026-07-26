@@ -1,4 +1,4 @@
 /**
- * Lesson 04: Learn endpoints, handlers, event-driven consumers, and polling consumers.
+ * Lesson 04: Learn transformer and service-activator endpoints.
  */
 package io.github.fengyanglin09.springintegrationlab.lessons.lesson04_endpoints;

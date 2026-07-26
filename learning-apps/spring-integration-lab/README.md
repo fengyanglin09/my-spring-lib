@@ -1,8 +1,8 @@
 # Spring Integration Lab
 
 This module is a reference-first learning path for `org.springframework.integration`.
-It is intentionally scaffolded without implementation code so each lesson can become
-a small, standalone concept note before any examples are added.
+Each lesson starts as a small, standalone concept note, then gains focused code
+when we are ready to study that concept with a runnable example.
 
 ## Structure
 
@@ -108,7 +108,7 @@ src/test/groovy/io/github/fengyanglin09/springintegrationlab/lessons/lessonXX_to
 1. [`lesson01_why_spring_integration`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson01_why_spring_integration/README.md): Why Spring Integration exists.
 2. [`lesson02_messages`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson02_messages/README.md): Messages, payloads, and headers.
 3. [`lesson03_message_channels`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson03_message_channels/README.md): Channels and producer-consumer decoupling.
-4. [`lesson04_endpoints`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson04_endpoints/README.md): Message-consuming components.
+4. [`lesson04_endpoints`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson04_endpoints/README.md): Transformer and service-activator endpoints.
 5. [`lesson05_flows`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson05_flows/README.md): Integration flows as wiring diagrams.
 6. [`lesson06_adapters`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson06_adapters/README.md): Inbound and outbound adapters.
 7. [`lesson07_transformers_enrichers`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson07_transformers_enrichers/README.md): Payload and header shaping.
