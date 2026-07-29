@@ -63,9 +63,95 @@ transactions, and operational visibility.
 
 ## Mini Scenario
 
-A payment submission fails in an async outbound step, so the flow sends an
-`ErrorMessage` to a payment error channel that records the failure and schedules retry.
+A payment authorization handler may throw a business exception. One gateway lets
+the exception propagate to the caller. Another gateway sends the exception to a
+lesson-specific error channel, where an error flow maps it into a declined
+payment result.
+
+## Files In This Lesson
+
+```text
+lesson11_error_handling/
+|-- README.md
+|-- package-info.java
+|-- config/
+|   `-- Lesson11ChannelConfiguration.java
+|-- flow/
+|   `-- Lesson11PaymentFlows.java
+|-- gateway/
+|   |-- Lesson11RecoveringPaymentGateway.java
+|   `-- Lesson11ThrowingPaymentGateway.java
+|-- handler/
+|   |-- Lesson11PaymentAuthorizer.java
+|   `-- Lesson11PaymentErrorMapper.java
+|-- model/
+|   |-- Lesson11PaymentAuthorizationException.java
+|   |-- Lesson11PaymentRequest.java
+|   `-- Lesson11PaymentResult.java
+`-- support/
+    `-- Lesson11Channels.java
+```
+
+Test mirror:
+
+```text
+src/test/groovy/io/github/fengyanglin09/springintegrationlab/lessons/lesson11_error_handling/
+`-- Lesson11ErrorHandlingSpec.groovy
+```
+
+## Code Walkthrough
+
+Normal successful path:
+
+```text
+Lesson11RecoveringPaymentGateway.authorize(request)
+    -> lesson11PaymentRequests
+    -> Lesson11PaymentAuthorizer.authorize(request)
+    -> Lesson11PaymentResult approved reply
+```
+
+Default failure path:
+
+```text
+Lesson11ThrowingPaymentGateway.authorize(request)
+    -> lesson11PaymentRequests
+    -> Lesson11PaymentAuthorizer.authorize(request) throws
+    -> exception is thrown back to the caller
+```
+
+Recovered failure path:
+
+```text
+Lesson11RecoveringPaymentGateway.authorize(request)
+    -> lesson11PaymentRequests
+    -> Lesson11PaymentAuthorizer.authorize(request) throws
+    -> gateway sends ErrorMessage to lesson11PaymentErrors
+    -> Lesson11PaymentErrorMapper maps Throwable to Lesson11PaymentResult
+    -> caller receives declined result instead of catching an exception
+```
+
+## What To Notice In The Code
+
+- `Lesson11ThrowingPaymentGateway` has no `errorChannel`, so it uses the
+  default gateway behavior: downstream exceptions are thrown to the caller.
+- `Lesson11RecoveringPaymentGateway` has
+  `@MessagingGateway(errorChannel = Lesson11Channels.PAYMENT_ERRORS)`, so
+  downstream exceptions are sent to the lesson-specific error channel.
+- The normal flow does not catch exceptions directly. It lets the gateway
+  choose the error behavior.
+- The error flow receives an `ErrorMessage`. Its payload is a `Throwable`.
+- The error mapper turns that `Throwable` into the lesson's normal reply type:
+  `Lesson11PaymentResult`.
+- If an error flow returns a normal payload, the gateway caller receives that
+  payload as the method return value.
+
+## Production Note
+
+This lesson focuses on exception-to-failure-reply mapping. Production systems
+often combine this with retries, alerting, dead-letter channels, metrics, and
+careful rules for which errors should be recovered versus thrown.
 
 ## Official Docs
 
 - [Error Handling](https://docs.spring.io/spring-integration/reference/error-handling.html)
+- [Messaging Gateway Error Handling](https://docs.spring.io/spring-integration/reference/7.0/gateway.html#error-handling)
