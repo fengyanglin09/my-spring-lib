@@ -64,10 +64,94 @@ metadata stores, and external system guarantees.
 
 ## Mini Scenario
 
-An invoice message may be retried after a timeout. The flow uses an invoice ID
-as an idempotency key so the downstream system is not charged twice.
+A charge command may be retried after a timeout. The flow uses
+`Lesson12ChargeCommand.commandId` as an idempotency key so the account is not
+charged twice for the same business command.
+
+## Files In This Lesson
+
+```text
+lesson12_transactions_idempotency/
+|-- README.md
+|-- package-info.java
+|-- config/
+|   |-- Lesson12ChannelConfiguration.java
+|   `-- Lesson12IdempotencyConfiguration.java
+|-- flow/
+|   `-- Lesson12IdempotentChargeFlow.java
+|-- gateway/
+|   `-- Lesson12ChargeGateway.java
+|-- handler/
+|   `-- Lesson12ChargeLedger.java
+|-- model/
+|   |-- Lesson12ChargeCommand.java
+|   |-- Lesson12ChargeResult.java
+|   `-- Lesson12LedgerEntry.java
+`-- support/
+    |-- Lesson12Channels.java
+    `-- Lesson12IdempotencyRepository.java
+```
+
+Test mirror:
+
+```text
+src/test/groovy/io/github/fengyanglin09/springintegrationlab/lessons/lesson12_transactions_idempotency/
+`-- Lesson12TransactionsIdempotencySpec.groovy
+```
+
+## Code Walkthrough
+
+First message for a command id:
+
+```text
+Lesson12ChargeGateway.charge(command)
+    -> lesson12ChargeCommands
+    -> idempotent receiver checks commandId
+    -> commandId is new, so the message continues
+    -> Lesson12ChargeLedger.applyCharge(command)
+    -> one ledger entry is created
+    -> caller receives CHARGED result
+```
+
+Duplicate message for the same command id:
+
+```text
+Lesson12ChargeGateway.charge(command)
+    -> lesson12ChargeCommands
+    -> idempotent receiver checks commandId
+    -> commandId already exists, so the normal handler is skipped
+    -> duplicate message goes to lesson12DuplicateChargeCommands
+    -> Lesson12ChargeLedger.skipDuplicate(command)
+    -> no new ledger entry is created
+    -> caller receives DUPLICATE_SKIPPED result
+```
+
+## What To Notice In The Code
+
+- `Lesson12ChargeCommand.commandId` is the idempotency key.
+- `MetadataStoreSelector` checks and stores that key in a
+  `ConcurrentMetadataStore`.
+- `SimpleMetadataStore` is in-memory here so the lesson is easy to reset.
+- `IdempotentReceiverInterceptor` is advice around the endpoint that applies
+  the side effect.
+- The first message reaches `applyCharge(...)`.
+- A duplicate message is sent to the discard channel and reaches
+  `skipDuplicate(...)`.
+- The duplicate path returns a normal reply but does not write another ledger
+  entry.
+
+## Transaction Boundary Note
+
+This lesson teaches the idempotency shape, not a real database transaction.
+The metadata store and the in-memory ledger are separate in this example.
+
+In production, be careful about when the idempotency key is recorded versus when
+the side effect is committed. If possible, store the idempotency key and the
+side effect in the same transactional resource, or use a status model such as
+`PENDING` and `COMPLETED` so a crash between steps can be recovered safely.
 
 ## Official Docs
 
 - [Transaction Support](https://docs.spring.io/spring-integration/reference/transactions.html)
 - [Idempotent Receiver Enterprise Integration Pattern](https://docs.spring.io/spring-integration/reference/handler-advice/idempotent-receiver.html)
+- [Metadata Store](https://docs.spring.io/spring-integration/reference/meta-data-store.html)

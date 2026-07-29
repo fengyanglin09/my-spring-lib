@@ -116,7 +116,7 @@ src/test/groovy/io/github/fengyanglin09/springintegrationlab/lessons/lessonXX_to
 9. [`lesson09_split_aggregate_resequence`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson09_split_aggregate_resequence/README.md): Fan-out, fan-in, and ordering.
 10. [`lesson10_polling_scheduling_backpressure`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson10_polling_scheduling_backpressure/README.md): Polling, pacing, and buffering.
 11. [`lesson11_error_handling`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson11_error_handling/README.md): Exceptions, error messages, and error channels.
-12. [`lesson12_transactions_idempotency`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson12_transactions_idempotency/README.md): Transactions, duplicates, and recovery.
+12. [`lesson12_transactions_idempotency`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson12_transactions_idempotency/README.md): Transactions, duplicates, and idempotency.
 13. [`lesson13_testing_flows`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson13_testing_flows/README.md): Testing components, partial flows, and full flows.
 14. [`lesson14_observability_operations`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson14_observability_operations/README.md): Message history, metrics, and control.
 15. [`lesson15_adapter_deep_dives`](src/main/java/io/github/fengyanglin09/springintegrationlab/lessons/lesson15_adapter_deep_dives/README.md): Protocol-specific adapter study.
