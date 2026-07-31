@@ -14,6 +14,7 @@
 
     <modules>
         <module>learning-apps/rules-engine-lab</module>
+        <module>learning-apps/spring-boot-lab</module>
         <module>learning-apps/spring-integration-lab</module>
     </modules>
 
