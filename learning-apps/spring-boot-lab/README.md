@@ -102,6 +102,26 @@ lesson03_application_startup_context/
     └── Lesson03StartupRecorder.java
 ```
 
+Lesson 04 uses this shape because it teaches a small bean graph:
+
+```text
+lesson04_beans_dependency_injection/
+├── README.md
+├── package-info.java
+├── config/
+│   └── Lesson04BeanConfiguration.java
+├── model/
+│   ├── Lesson04BeanGraphSnapshot.java
+│   ├── Lesson04OrderReceipt.java
+│   └── Lesson04OrderRequest.java
+├── service/
+│   ├── Lesson04OrderService.java
+│   └── Lesson04ReceiptFormatter.java
+└── support/
+    ├── Lesson04BeanGraphInspector.java
+    └── Lesson04OrderNumberGenerator.java
+```
+
 ## Lesson Path
 
 1. [`lesson01_why_spring_boot`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson01_why_spring_boot/README.md): Why Spring Boot exists.
