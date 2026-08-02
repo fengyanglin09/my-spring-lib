@@ -1,5 +1,7 @@
 package io.github.fengyanglin09.springbootlab.lessons.lesson01_why_spring_boot;
 
+import io.github.fengyanglin09.springbootlab.lessons.lesson01_why_spring_boot.model.Lesson01BootSnapshot;
+import io.github.fengyanglin09.springbootlab.lessons.lesson01_why_spring_boot.support.Lesson01BootInspector;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

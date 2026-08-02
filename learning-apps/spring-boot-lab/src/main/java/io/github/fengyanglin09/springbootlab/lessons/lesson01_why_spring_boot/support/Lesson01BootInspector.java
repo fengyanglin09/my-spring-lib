@@ -1,5 +1,6 @@
-package io.github.fengyanglin09.springbootlab.lessons.lesson01_why_spring_boot;
+package io.github.fengyanglin09.springbootlab.lessons.lesson01_why_spring_boot.support;
 
+import io.github.fengyanglin09.springbootlab.lessons.lesson01_why_spring_boot.model.Lesson01BootSnapshot;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;

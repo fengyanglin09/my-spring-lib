@@ -88,9 +88,10 @@ main(String[] args)
 ## Files
 
 - `SpringBootLabApplication.java`: the root Boot application and `main` method.
-- `Lesson01BootInspector.java`: a tiny Spring bean that inspects the running
-  application context.
-- `Lesson01BootSnapshot.java`: the result object returned by the inspector.
+- `support/Lesson01BootInspector.java`: a tiny Spring bean that inspects the
+  running application context.
+- `model/Lesson01BootSnapshot.java`: the result object returned by the
+  inspector.
 - `Lesson01WhySpringBootTest.java`: proves Boot starts the context and component
   scanning finds the lesson bean.
 

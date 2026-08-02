@@ -1,4 +1,4 @@
-package io.github.fengyanglin09.springbootlab.lessons.lesson01_why_spring_boot;
+package io.github.fengyanglin09.springbootlab.lessons.lesson01_why_spring_boot.model;
 
 import java.util.List;
 
