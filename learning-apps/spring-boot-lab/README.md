@@ -89,6 +89,19 @@ lesson02_project_anatomy_maven_starters_classpath/
     └── Lesson02ProjectClasspathInspector.java
 ```
 
+Lesson 03 uses this shape because it teaches startup and context inspection:
+
+```text
+lesson03_application_startup_context/
+├── README.md
+├── package-info.java
+├── model/
+│   └── Lesson03StartupSnapshot.java
+└── support/
+    ├── Lesson03StartupInspector.java
+    └── Lesson03StartupRecorder.java
+```
+
 ## Lesson Path
 
 1. [`lesson01_why_spring_boot`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson01_why_spring_boot/README.md): Why Spring Boot exists.
