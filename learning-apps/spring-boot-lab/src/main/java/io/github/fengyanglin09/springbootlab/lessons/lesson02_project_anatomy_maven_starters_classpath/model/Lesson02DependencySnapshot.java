@@ -8,7 +8,8 @@ import java.util.List;
  * <p>The snapshot turns low-level classpath checks into lesson language:
  * starter-provided runtime pieces, explicitly declared helper libraries, and
  * test tools. The classpath entries are the evidence; the boolean methods below
- * group that evidence into the ideas Lesson 02 wants to teach.</p>
+ * group that evidence into the ideas Lesson 02 wants to teach: Maven prepares
+ * the classpath, Java loads from it, and Spring Boot uses what Java can load.</p>
  */
 public record Lesson02DependencySnapshot(
         String springBootVersion,

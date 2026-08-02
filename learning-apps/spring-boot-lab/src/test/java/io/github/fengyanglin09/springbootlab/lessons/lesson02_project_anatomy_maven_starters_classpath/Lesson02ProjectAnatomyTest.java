@@ -10,8 +10,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Lesson 02's executable proof.
  *
  * <p>This is a plain JUnit test because Maven/classpath assembly is the subject.
- * A full Spring context would work, but it would hide the simpler point:
- * dependencies declared in the POM become classes the code can see.</p>
+ * A full Spring context would work, but it would hide the simpler chain:
+ * Maven prepares the classpath, Java's ClassLoader finds classes on it, and
+ * Spring Boot later uses those loadable classes.</p>
  */
 class Lesson02ProjectAnatomyTest {
 

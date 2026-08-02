@@ -14,8 +14,9 @@ import java.util.List;
  * Inspects the classpath Maven prepared for this module.
  *
  * <p>This is plain Java on purpose. Lesson 02 is not testing the Spring
- * application context; it is showing that the POM and Boot dependency
- * management decide which libraries application code can use.</p>
+ * application context; it is showing the chain before Boot does application
+ * work: Maven prepares the classpath, Java's ClassLoader searches it, and
+ * Spring Boot can use the classes Java is able to load.</p>
  *
  * <p>The lesson content is deliberately narrow: Maven module shape, Boot
  * dependency management, starters, direct helper dependencies, test
@@ -24,7 +25,12 @@ import java.util.List;
 public class Lesson02ProjectClasspathInspector {
 
     /*
-     * This checklist translates build concepts into concrete classes:
+     * This checklist translates build concepts into concrete classes.
+     *
+     * The lesson is not that Spring directly reads the POM. Spring Boot sees
+     * the world after Maven and Java have done their jobs: Maven resolved the
+     * dependencies, and Java can now load classes from target/ and dependency
+     * jars.
      *
      * - This lab's main application class should be present from
      *   target/classes, which is where Maven compiles src/main/java.
@@ -98,7 +104,7 @@ public class Lesson02ProjectClasspathInspector {
      * <p>The important lesson idea is that this method does not create any of
      * these libraries. Maven has already resolved them before the test starts.
      * This method only asks, "Can the running code see the classes that the POM
-     * said should be available?"</p>
+     * said should be available, and where did Java find them?"</p>
      *
      * <p>Classpath means the search list Java uses for classes and resources.
      * In this test, Maven builds that list from compiled project classes,
@@ -107,6 +113,9 @@ public class Lesson02ProjectClasspathInspector {
     public Lesson02DependencySnapshot inspect() {
         /*
          * A ClassLoader is the object Java uses to find classes at runtime.
+         * Spring Boot depends on this: component scanning and
+         * auto-configuration only work with classes and resources the active
+         * ClassLoader can load.
          *
          * We use the current thread's context ClassLoader because test runners,
          * application servers, and frameworks often set it to the loader that

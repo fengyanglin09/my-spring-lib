@@ -15,6 +15,26 @@ Lesson 01 showed Boot starting an application context. Lesson 02 steps one layer
 lower: before Boot can start anything, Maven has to assemble compiled code,
 resources, plugins, and dependencies.
 
+The central chain is:
+
+```text
+pom.xml
+    -> Maven resolves dependencies
+    -> Maven compiles project code into target/
+    -> Maven builds a classpath for the current run
+    -> Java's ClassLoader searches that classpath
+    -> Spring Boot uses the classes Java can load
+```
+
+So this lesson is not saying "Spring Boot magically knows every dependency."
+The sharper idea is:
+
+```text
+Maven prepares the classpath.
+Java loads classes from it.
+Spring Boot builds on top of the classes Java can load.
+```
+
 ## Lesson Coverage
 
 This lesson covers six ideas:
@@ -116,6 +136,9 @@ ask ClassLoader for SpringApplication.class
 
 So the code is not only asking "is this dependency available?" It now also asks
 "where did Java find the class?"
+
+Spring Boot enters after that. It can component-scan, auto-configure, and create
+beans only from classes and resources the active class loader can load.
 
 ## What Does It Look Like Physically?
 
@@ -274,6 +297,8 @@ Maven
     -> writes main output to target/classes
     -> writes test output to target/test-classes
     -> builds test classpath
+    -> Java ClassLoader searches that classpath
+    -> Spring Boot can use classes Java can load
     -> runs lesson test
     -> packages BOOT-INF/classes and BOOT-INF/lib for java -jar
 ```
@@ -289,6 +314,8 @@ Maven
 - Build plugins shape compilation and packaging. In this lab,
   `spring-boot:repackage` creates the executable jar layout shown above.
 - The classpath is the concrete result of the POM after Maven resolves it.
+- Java's `ClassLoader` performs the actual class search; Spring Boot relies on
+  that loaded classpath for scanning and auto-configuration.
 
 ## Decision Rules
 
@@ -332,6 +359,7 @@ Maven resolves dependencies
     -> Maven compiles src/test/java into target/test-classes
     -> Maven builds the test classpath
     -> java.class.path exposes launch classpath roots
+    -> Java ClassLoader searches those roots
     -> Lesson02ProjectClasspathInspector checks known classes
     -> each classpath entry records where that class was found
     -> Lesson02DependencySnapshot groups those checks by lesson reason
