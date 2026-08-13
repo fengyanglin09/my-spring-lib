@@ -140,6 +140,30 @@ lesson05_auto_configuration/
     └── Lesson05GreetingLibraryMarker.java
 ```
 
+Lesson 06 uses this shape because it teaches externalized configuration and
+typed binding:
+
+```text
+lesson06_externalized_configuration/
+├── README.md
+├── package-info.java
+├── config/
+│   └── Lesson06Configuration.java
+├── model/
+│   ├── Lesson06ConfigurationSnapshot.java
+│   └── Lesson06LabProperties.java
+└── support/
+    └── Lesson06ConfigurationInspector.java
+```
+
+Lesson 06 also uses these test config files to show YAML and profile behavior:
+
+```text
+src/test/resources/
+├── lesson06-application.yml
+└── lesson06-application-dev.yml
+```
+
 ## Lesson Path
 
 1. [`lesson01_why_spring_boot`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson01_why_spring_boot/README.md): Why Spring Boot exists.

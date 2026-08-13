@@ -1,0 +1,5 @@
+lesson06:
+  lab:
+    refresh-interval: 5s
+    security:
+      token-audience: dev-audience

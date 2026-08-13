@@ -1,0 +1,7 @@
+lesson06:
+  lab:
+    region: file-default-region
+    refresh-interval: 30s
+    security:
+      require-https: true
+      token-audience: base-audience
