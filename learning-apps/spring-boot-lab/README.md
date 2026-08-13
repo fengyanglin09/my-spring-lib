@@ -122,6 +122,24 @@ lesson04_beans_dependency_injection/
     └── Lesson04OrderNumberGenerator.java
 ```
 
+Lesson 05 uses this shape because it teaches auto-configuration with tiny
+contexts:
+
+```text
+lesson05_auto_configuration/
+├── README.md
+├── package-info.java
+├── model/
+│   └── Lesson05AutoConfigurationSnapshot.java
+├── service/
+│   ├── Lesson05CustomGreetingService.java
+│   ├── Lesson05DefaultGreetingService.java
+│   └── Lesson05GreetingService.java
+└── support/
+    ├── Lesson05ConditionReportInspector.java
+    └── Lesson05GreetingLibraryMarker.java
+```
+
 ## Lesson Path
 
 1. [`lesson01_why_spring_boot`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson01_why_spring_boot/README.md): Why Spring Boot exists.
