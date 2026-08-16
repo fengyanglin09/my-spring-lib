@@ -164,6 +164,23 @@ src/test/resources/
 └── lesson06-application-dev.yml
 ```
 
+Lesson 07 uses this shape because it teaches REST APIs with Spring MVC and the
+difference between `@RestController` and regular `@Controller`:
+
+```text
+lesson07_rest_apis_spring_mvc/
+├── README.md
+├── package-info.java
+├── api/
+│   └── Lesson07ShippingQuoteController.java
+├── model/
+│   ├── Lesson07ShippingOptionResponse.java
+│   ├── Lesson07ShippingQuoteRequest.java
+│   └── Lesson07ShippingQuoteResponse.java
+└── service/
+    └── Lesson07ShippingQuoteService.java
+```
+
 ## Lesson Path
 
 1. [`lesson01_why_spring_boot`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson01_why_spring_boot/README.md): Why Spring Boot exists.
@@ -172,7 +189,7 @@ src/test/resources/
 4. [`lesson04_beans_dependency_injection`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson04_beans_dependency_injection/README.md): Beans and constructor injection.
 5. [`lesson05_auto_configuration`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson05_auto_configuration/README.md): Auto-configuration and backing off.
 6. [`lesson06_externalized_configuration`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson06_externalized_configuration/README.md): Properties, profiles, and binding.
-7. [`lesson07_rest_apis_spring_mvc`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson07_rest_apis_spring_mvc/README.md): REST APIs with Spring MVC.
+7. [`lesson07_rest_apis_spring_mvc`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson07_rest_apis_spring_mvc/README.md): REST APIs with `@RestController`.
 8. [`lesson08_error_handling`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson08_error_handling/README.md): Validation and API error responses.
 9. [`lesson09_service_layer_domain_boundaries`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson09_service_layer_domain_boundaries/README.md): Services and domain boundaries.
 10. [`lesson10_persistence_basics`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson10_persistence_basics/README.md): Persistence basics.
@@ -186,3 +203,10 @@ src/test/resources/
 18. [`lesson18_custom_auto_configuration_starters`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson18_custom_auto_configuration_starters/README.md): Custom auto-configuration and starters.
 19. [`lesson19_pragmatic_lombok`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson19_pragmatic_lombok/README.md): Lombok usage that helps Spring Boot code.
 20. [`lesson20_pragmatic_vavr`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson20_pragmatic_vavr/README.md): Vavr usage at service and boundary failure points.
+
+## Optional Future Branches
+
+These lessons are useful, but they are not part of the main backend REST API
+path yet.
+
+21. [`lesson21_server_rendered_mvc_controller`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson21_server_rendered_mvc_controller/README.md): Server-rendered MVC with regular `@Controller`.
