@@ -181,6 +181,26 @@ lesson07_rest_apis_spring_mvc/
     └── Lesson07ShippingQuoteService.java
 ```
 
+Lesson 08 uses this shape because it teaches validation and API error responses
+at the HTTP boundary:
+
+```text
+lesson08_error_handling/
+├── README.md
+├── package-info.java
+├── api/
+│   ├── Lesson08ApiExceptionHandler.java
+│   └── Lesson08OrderReservationController.java
+├── model/
+│   ├── Lesson08ApiErrorResponse.java
+│   ├── Lesson08FieldError.java
+│   ├── Lesson08OrderReservationRequest.java
+│   └── Lesson08OrderReservationResponse.java
+└── service/
+    ├── Lesson08InventoryReservationService.java
+    └── Lesson08OutOfStockException.java
+```
+
 ## Lesson Path
 
 1. [`lesson01_why_spring_boot`](src/main/java/io/github/fengyanglin09/springbootlab/lessons/lesson01_why_spring_boot/README.md): Why Spring Boot exists.
